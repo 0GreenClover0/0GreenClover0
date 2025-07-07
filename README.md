@@ -25,9 +25,9 @@ I enjoy building complex systems from scratch, solving hard problems, and contri
 - 🖥️ **DirectX 11 and C++23** - Built a custom engine from scratch.
   - Hobby: [Guiding Light](https://oelj.itch.io/guiding-light) (code: https://github.com/0GreenClover0/Engine)
   <br/><br/>
-  <img src="https://github.com/user-attachments/assets/3389a163-9722-4783-8aa2-94365e43f5ba" height="162">
-  <img src="https://github.com/user-attachments/assets/a3d50e02-7a5c-412c-a923-48784bc5c607" height="162">
-  <img src="https://github.com/user-attachments/assets/ac92127a-9e50-4748-8499-13ed97a30e35" height="162">
+  <img src="https://github.com/user-attachments/assets/3389a163-9722-4783-8aa2-94365e43f5ba" height="145">
+  <img src="https://github.com/user-attachments/assets/a3d50e02-7a5c-412c-a923-48784bc5c607" height="145">
+  <img src="https://github.com/user-attachments/assets/ac92127a-9e50-4748-8499-13ed97a30e35" height="145">
 
 - 🧱 **Unreal Engine (C++/Blueprints)** – 3+ years, award-winning hobby project, game jams.
   - Hobby: [Heartbreaker](https://disco-angels.itch.io/heartbreaker), [Laughmaker](https://globalgamejam.org/games/2024/laughmaker-1) (game jam game)
