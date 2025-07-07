@@ -16,7 +16,7 @@ I enjoy building complex systems from scratch, solving hard problems, and contri
 - 🎮 **Unity (C#)** - 7+ years (3 commercial), gameplay programming, multiplayer, systems design, optimization (PC, standalone VR).
   - Commercially: [Brace UP VR](https://blog.vhsoft.io/braceup-vr/) + and other proprietary client work
 
-    <img src="https://github.com/user-attachments/assets/351ffd77-e7f5-4343-a982-6453b119e826" height="162"> <img src="https://github.com/user-attachments/assets/e8f64e63-fcea-48e0-9187-4136fa03401d" height="162"> <img src="https://github.com/user-attachments/assets/e678e757-1d91-483f-9871-69ef702c4c65" height="162">
+    <img src="https://github.com/user-attachments/assets/351ffd77-e7f5-4343-a982-6453b119e826" height="140"> <img src="https://github.com/user-attachments/assets/e8f64e63-fcea-48e0-9187-4136fa03401d" height="140"> <img src="https://github.com/user-attachments/assets/e678e757-1d91-483f-9871-69ef702c4c65" height="140">
 
   - Hobby: [Guiding Light VR](https://github.com/0GreenClover0/VRP), [Disco Sorter](https://clovermike.itch.io/disco-sorter)
     <br/><br/>
