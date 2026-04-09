@@ -160,16 +160,16 @@
       transform: scale(1.03);
     }
 
+    .featured { cursor: pointer; }
     .featured-body {
       padding: 32px 36px;
       border-left: 1px solid var(--bg2);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      cursor: pointer;
       transition: background 0.2s;
     }
-    .featured-body:hover { background: var(--bg1); }
+    .featured:hover .featured-body { background: var(--bg1); }
 
     .featured-kicker {
       font-family: 'IBM Plex Mono', monospace;
@@ -462,11 +462,11 @@
   <section id="projects">
     <div class="col-header"><h2>Selected Works</h2></div>
 
-    <div class="featured">
+    <div class="featured" onclick="window.open('./GuidingLight/guiding-light.html','_self')">
       <div class="featured-img">
         <img src="./GuidingLight/guidinglight1.png" alt="Guiding Light" />
       </div>
-      <div class="featured-body" onclick="window.open('./GuidingLight/guiding-light.html','_self')">
+      <div class="featured-body">
         <div>
           <div class="featured-kicker">Featured Project &nbsp;·&nbsp; Engine / Graphics</div>
           <span class="status status-green">Released</span>
