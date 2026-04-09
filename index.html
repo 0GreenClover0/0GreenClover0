@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mikołaj Przybylski — Game Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:     #282828;
+      --bg1:    #3c3836;
+      --bg2:    #504945;
+      --bg3:    #665c54;
+      --bg4:    #7c6f64;
+      --fg:     #ebdbb2;
+      --fg2:    #d5c4a1;
+      --fg3:    #bdae93;
+      --fg4:    #a89984;
+      --red:    #fb4934;
+      --green:  #b8bb26;
+      --yellow: #fabd2f;
+      --blue:   #83a598;
+      --aqua:   #8ec07c;
+      --orange: #fe8019;
+      --gray:   #928374;
+      --purple: #d3869b;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg2);
+      font-family: 'Lora', Georgia, serif;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Masthead ─────────────────────────────────────── */
+    .masthead {
+      border-bottom: 3px double var(--bg3);
+      padding: 0 40px;
+    }
+
+    .masthead-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 0 11px;
+      border-bottom: 1px solid var(--bg2);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--fg4);
+      letter-spacing: 0.06em;
+    }
+    .masthead-top a { color: var(--fg4); transition: color 0.15s; }
+    .masthead-top a:hover { color: var(--yellow); }
+    .masthead-top-links { display: flex; gap: 20px; }
+    .masthead-top-socials { display: flex; gap: 14px; align-items: center; }
+    .masthead-top-socials svg { width: 15px; height: 15px; fill: currentColor; display: block; }
+
+    .masthead-title {
+      text-align: center;
+      padding: 28px 0 20px;
+      border-bottom: 1px solid var(--bg2);
+    }
+    .masthead-title h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(48px, 7vw, 70px);
+      font-weight: 900;
+      color: var(--fg);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      line-height: 0.95;
+    }
+    .masthead-title .byline {
+      margin-top: 12px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 17px;
+      color: var(--fg4);
+    }
+    .masthead-title .byline em { color: var(--yellow); font-style: normal; }
+
+    .masthead-nav {
+      display: flex;
+      justify-content: center;
+      padding: 11px 0;
+    }
+    .masthead-nav a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--fg3);
+      padding: 0 20px;
+      border-right: 1px solid var(--bg2);
+      transition: color 0.15s;
+    }
+    .masthead-nav a:first-child { border-left: 1px solid var(--bg2); }
+    .masthead-nav a:hover { color: var(--yellow); }
+
+    /* ── Helpers ─────────────────────────────────────── */
+    .rule { border: none; border-top: 1px solid var(--bg2); margin: 0; }
+
+    /* ── Page ────────────────────────────────────────── */
+    .page { max-width: 1160px; margin: 0 auto; padding: 0 40px 80px; }
+
+    .col-header {
+      padding: 32px 0 14px;
+    }
+    .col-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--fg4);
+      text-align: center;
+      position: relative;
+    }
+    .col-header h2::before,
+    .col-header h2::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: calc(50% - 90px);
+      height: 1px;
+      background: var(--bg2);
+    }
+    .col-header h2::before { left: 0; }
+    .col-header h2::after { right: 0; }
+
+    /* ── Featured ────────────────────────────────────── */
+    .featured {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--bg2);
+      margin-top: 16px;
+    }
+    .featured-img {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+    }
+    .featured-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: sepia(0.2) saturate(0.85) brightness(0.8);
+      transition: filter 0.5s, transform 0.5s;
+      display: block;
+    }
+    .featured:hover .featured-img img {
+      filter: sepia(0.05) saturate(1) brightness(0.9);
+      transform: scale(1.03);
+    }
+
+    .featured-body {
+      padding: 32px 36px;
+      border-left: 1px solid var(--bg2);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .featured-body:hover { background: var(--bg1); }
+
+    .featured-kicker {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 12px;
+    }
+    .featured-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--fg);
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .featured-desc {
+      font-size: 15px;
+      font-style: italic;
+      color: var(--fg3);
+      line-height: 1.75;
+      flex: 1;
+      margin-bottom: 24px;
+    }
+    .featured-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .featured-meta-row {
+      display: flex;
+      gap: 20px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--fg4);
+    }
+    .meta-pair { display: flex; flex-direction: column; gap: 2px; }
+    .meta-label { color: var(--gray); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; }
+    .meta-value { color: var(--fg3); }
+    .featured-links {
+      display: flex;
+      gap: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--bg2);
+    }
+    .featured-links a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      transition: color 0.15s;
+    }
+    .featured-links a:hover { color: var(--yellow); }
+
+    /* ── Project list ────────────────────────────────── */
+    .project-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-left: 1px solid var(--bg2);
+      border-top: 1px solid var(--bg2);
+    }
+
+    .proj-item {
+      border-right: 1px solid var(--bg2);
+      border-bottom: 1px solid var(--bg2);
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .proj-item:hover { background: var(--bg1); }
+
+    .proj-thumb {
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      position: relative;
+    }
+    .proj-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: sepia(0.25) saturate(0.75) brightness(0.78);
+      transition: filter 0.35s, transform 0.35s;
+      display: block;
+    }
+    .proj-item:hover .proj-thumb img {
+      filter: sepia(0.05) saturate(1) brightness(0.9);
+      transform: scale(1.05);
+    }
+
+    .proj-body { padding: 18px 18px 18px; flex: 1; display: flex; flex-direction: column; }
+
+    .proj-kicker {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 6px;
+    }
+    .proj-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--fg);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .proj-desc {
+      font-size: 13px;
+      font-style: italic;
+      color: var(--fg4);
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: 12px;
+    }
+    .proj-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-top: 1px solid var(--bg2);
+      padding-top: 10px;
+      margin-top: auto;
+      gap: 8px;
+    }
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 3px; }
+    .tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      padding: 1px 7px;
+      border: 1px solid;
+    }
+    .tag-lang   { color: var(--blue);   border-color: var(--blue);   background: rgba(131,165,152,0.08); }
+    .tag-api    { color: var(--red);    border-color: var(--red);    background: rgba(251,73,52,0.08);  }
+    .tag-engine { color: var(--aqua);   border-color: var(--aqua);   background: rgba(142,192,124,0.08);}
+    .tag-misc   { color: var(--orange); border-color: var(--orange); background: rgba(254,128,25,0.08); }
+
+    .proj-meta-mini {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--gray);
+      text-align: right;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .proj-meta-mini span { display: block; }
+
+    /* ── Status pill ─────────────────────────────────── */
+    .status {
+      display: inline-block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      margin-bottom: 8px;
+      border: 1px solid;
+    }
+    .status-green  { color: var(--green);  border-color: var(--green); }
+    .status-yellow { color: var(--yellow); border-color: var(--yellow); }
+    .status-red    { color: var(--red);    border-color: var(--red); }
+    .status-gray   { color: var(--gray);   border-color: var(--bg3); }
+
+    /* ── Articles ─────────────────────────────────────── */
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-left: 1px solid var(--bg2);
+      border-top: 1px solid var(--bg2);
+    }
+
+    .article-item {
+      border-right: 1px solid var(--bg2);
+      border-bottom: 1px solid var(--bg2);
+      padding: 26px 22px;
+      display: flex;
+      flex-direction: column;
+      transition: background 0.2s;
+    }
+    .article-item:hover { background: var(--bg1); }
+
+    .article-issue {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 10px;
+    }
+    .article-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      font-style: italic;
+      color: var(--fg);
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+    .article-desc {
+      font-size: 14px;
+      color: var(--fg4);
+      line-height: 1.7;
+      flex: 1;
+      margin-bottom: 18px;
+    }
+    .article-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--bg2);
+      padding-top: 12px;
+    }
+    .article-tags { display: flex; gap: 4px; flex-wrap: wrap; }
+    .article-date {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--gray);
+      white-space: nowrap;
+    }
+
+    /* ── Footer ──────────────────────────────────────── */
+    .footer {
+      border-top: 3px double var(--bg3);
+      padding: 26px 40px;
+      text-align: center;
+    }
+    .footer-inner {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--gray);
+      letter-spacing: 0.08em;
+    }
+    .footer-inner a { color: var(--fg4); transition: color 0.15s; }
+    .footer-inner a:hover { color: var(--yellow); }
+    .footer-sep { margin: 0 12px; color: var(--bg3); }
+
+    /* ── Responsive ──────────────────────────────────── */
+    @media (max-width: 860px) {
+      .masthead, .page, .footer { padding-left: 20px; padding-right: 20px; }
+      .featured { grid-template-columns: 1fr; }
+      .featured-img { aspect-ratio: 16/9; }
+      .featured-body { border-left: none; border-top: 1px solid var(--bg2); }
+      .project-list { grid-template-columns: 1fr 1fr; }
+      .articles-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .project-list { grid-template-columns: 1fr; }
+      .masthead-title h1 { letter-spacing: 0.06em; }
+      .masthead-nav a { padding: 0 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-top">
+    <div class="masthead-top-links">
+      <a href="#projects">Projects</a>
+      <a href="#articles">Writing</a>
+      <a href="mailto:m.przybylski.inbox@gmail.com">Contact</a>
+    </div>
+    <div class="masthead-top-socials">
+      <a href="https://github.com/0GreenClover0" target="_blank" title="GitHub">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.021C22 6.484 17.522 2 12 2z"/></svg>
+      </a>
+      <a href="https://linkedin.com/in/mikołaj-przybylski-5b8865206" target="_blank" title="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57A1.46 1.46 0 0 1 14.38 12.11C15.18 12.11 15.75 12.68 15.75 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="masthead-title">
+    <h1>Mikołaj Przybylski</h1>
+    <p class="byline"><em>Game Developer</em> &nbsp;·&nbsp; Rendering Engineer &nbsp;·&nbsp; Systems Programmer</p>
+  </div>
+
+  <nav class="masthead-nav">
+    <a href="#projects">Projects</a>
+    <a href="#articles">Writing</a>
+    <a href="mailto:m.przybylski.inbox@gmail.com">Contact</a>
+    <a href="https://github.com/0GreenClover0" target="_blank">GitHub</a>
+  </nav>
+</header>
+
+<div class="page">
+
+  <section id="projects">
+    <div class="col-header"><h2>Selected Works</h2></div>
+
+    <div class="featured">
+      <div class="featured-img">
+        <img src="./guidinglight1.png" alt="Guiding Light" />
+      </div>
+      <div class="featured-body" onclick="window.open('./guiding-light.html','_blank')">
+        <div>
+          <div class="featured-kicker">Featured Project &nbsp;·&nbsp; Engine / Graphics</div>
+          <span class="status status-green">Released</span>
+          <div class="featured-title">Guiding Light</div>
+          <p class="featured-desc">A casual time-management game developed alongside its own game engine (including an editor, 2D physics engine, UI and much more). Written from scratch in modern C++ and DirectX 11.</p>
+        </div>
+        <div class="featured-meta">
+          <div class="featured-meta-row">
+            <div class="meta-pair">
+              <span class="meta-label">Team</span>
+              <span class="meta-value">8 People</span>
+            </div>
+            <div class="meta-pair">
+              <span class="meta-label">Duration</span>
+              <span class="meta-value">4 Months</span>
+            </div>
+            <div class="meta-pair">
+              <span class="meta-label">Tech</span>
+              <span class="meta-value">C++ · HLSL · Custom Engine</span>
+            </div>
+          </div>
+          <div class="featured-links">
+            <a href="https://github.com/0GreenClover0/Engine" target="_blank" onclick="event.stopPropagation()">GitHub &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="rule" />
+
+    <div class="project-list">
+
+      <div class="proj-item" onclick="window.open('https://github.com/0GreenClover0/','_blank')">
+        <div class="proj-thumb"><img src="https://images.unsplash.com/photo-1547394765-185e1e68f34e?w=900&q=80" alt="" /></div>
+        <div class="proj-body">
+          <div class="proj-kicker">Custom Engine</div>
+          <span class="status status-green">Released</span>
+          <div class="proj-title">Title</div>
+          <p class="proj-desc">Description.</p>
+          <div class="proj-footer">
+            <div class="proj-tags">
+              <span class="tag tag-lang">c++</span>
+              <span class="tag tag-misc"></span>
+              <span class="tag tag-api">vulkan</span>
+            </div>
+            <div class="proj-meta-mini"><span>8–12 people</span><span>16 weeks</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-item" onclick="window.open('https://github.com/0GreenClover0/','_blank')">
+        <div class="proj-thumb"><img src="https://images.unsplash.com/photo-1535016120720-40c646be5580?w=600&q=80" alt="" /></div>
+        <div class="proj-body">
+          <div class="proj-kicker">Rendering Research</div>
+          <span class="status status-yellow">Work in Progress</span>
+          <div class="proj-title">Title</div>
+          <p class="proj-desc">Description.</p>
+          <div class="proj-footer">
+            <div class="proj-tags">
+              <span class="tag tag-lang">c++</span>
+              <span class="tag tag-api">vulkan</span>
+              <span class="tag tag-api">hlsl</span>
+            </div>
+            <div class="proj-meta-mini"><span>Solo</span><span>8 weeks</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-item" onclick="window.open('https://github.com/0GreenClover0/','_blank')">
+        <div class="proj-thumb"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="" /></div>
+        <div class="proj-body">
+          <div class="proj-kicker">Engine Systems</div>
+          <span class="status status-green">Released</span>
+          <div class="proj-title">Title</div>
+          <p class="proj-desc">Description.</p>
+          <div class="proj-footer">
+            <div class="proj-tags">
+              <span class="tag tag-lang">c++</span>
+              <span class="tag tag-api">vulkan</span>
+              <span class="tag tag-misc"></span>
+            </div>
+            <div class="proj-meta-mini"><span>1–2 people</span><span>20 weeks</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-item" onclick="window.open('https://github.com/0GreenClover0/','_blank')">
+        <div class="proj-thumb"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80" alt="" /></div>
+        <div class="proj-body">
+          <div class="proj-kicker">Internship</div>
+          <span class="status status-gray">Traverse Research</span>
+          <div class="proj-title">Title</div>
+          <p class="proj-desc">Description.</p>
+          <div class="proj-footer">
+            <div class="proj-tags">
+              <span class="tag tag-lang">rust</span>
+              <span class="tag tag-api">hlsl</span>
+              <span class="tag tag-misc"></span>
+            </div>
+            <div class="proj-meta-mini"><span>Solo</span><span>8 weeks</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-item" onclick="window.open('','_blank')">
+        <div class="proj-thumb"><img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&q=80" alt="" /></div>
+        <div class="proj-body">
+          <div class="proj-kicker">Game Jam</div>
+          <span class="status status-red">Ludum Dare 55</span>
+          <div class="proj-title">Title</div>
+          <p class="proj-desc">Description.</p>
+          <div class="proj-footer">
+            <div class="proj-tags">
+              <span class="tag tag-lang">c++</span>
+              <span class="tag tag-api">opengl</span>
+              <span class="tag tag-api">glsl</span>
+            </div>
+            <div class="proj-meta-mini"><span>2 people</span><span>Weekend</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-item" onclick="window.open('https://github.com/0GreenClover0/','_blank')">
+        <div class="proj-thumb"><img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&q=80" alt="" /></div>
+        <div class="proj-body">
+          <div class="proj-kicker">Emulation</div>
+          <span class="status status-green">Released</span>
+          <div class="proj-title">Title</div>
+          <p class="proj-desc">Description.</p>
+          <div class="proj-footer">
+            <div class="proj-tags">
+              <span class="tag tag-lang">c#</span>
+              <span class="tag tag-misc"></span>
+            </div>
+            <div class="proj-meta-mini"><span>Solo</span><span>4 weeks</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="articles">
+    <div class="col-header"><h2>Writing</h2></div>
+    <div class="articles-grid">
+
+      <a class="article-item" href="/articles/surfel-gi">
+        <div class="article-issue">Global Illumination</div>
+        <div class="article-title">Something</div>
+        <p class="article-desc">Description.</p>
+        <div class="article-footer">
+          <div class="article-tags">
+            <span class="tag tag-misc">graphics</span>
+            <span class="tag tag-engine">bla</span>
+          </div>
+          <div class="article-date">2025-01-22</div>
+        </div>
+      </a>
+
+      <a class="article-item" href="/articles/radiance-cascades">
+        <div class="article-issue">Global Illumination</div>
+        <div class="article-title">Something something</div>
+        <p class="article-desc">Description.</p>
+        <div class="article-footer">
+          <div class="article-tags">
+            <span class="tag tag-misc">graphics</span>
+            <span class="tag tag-misc">cascades</span>
+          </div>
+          <div class="article-date">2024-11-05</div>
+        </div>
+      </a>
+
+      <a class="article-item" href="/articles/something">
+        <div class="article-issue">Engine Architecture</div>
+        <div class="article-title">Something something</div>
+        <p class="article-desc">Description.</p>
+        <div class="article-footer">
+          <div class="article-tags">
+            <span class="tag tag-misc">architecture</span>
+            <span class="tag tag-api">vulkan</span>
+          </div>
+          <div class="article-date">2024-08-14</div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <a href="https://github.com/0GreenClover0" target="_blank">github.com/0GreenClover0</a>
+    <span class="footer-sep">&middot;</span>
+    <a href="mailto:m.przybylski.inbox@gmail.com">m.przybylski.inbox@gmail.com</a>
+  </div>
+</footer>
+
+</body>
+</html>

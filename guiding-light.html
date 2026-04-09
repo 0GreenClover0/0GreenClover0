@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guiding Light — Mikołaj Przybylski</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:     #282828;
+      --bg1:    #3c3836;
+      --bg2:    #504945;
+      --bg3:    #665c54;
+      --bg4:    #7c6f64;
+      --fg:     #ebdbb2;
+      --fg2:    #d5c4a1;
+      --fg3:    #bdae93;
+      --fg4:    #a89984;
+      --red:    #fb4934;
+      --green:  #b8bb26;
+      --yellow: #fabd2f;
+      --blue:   #83a598;
+      --aqua:   #8ec07c;
+      --orange: #fe8019;
+      --gray:   #928374;
+      --purple: #d3869b;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg2);
+      font-family: 'Lora', Georgia, serif;
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Top bar ──────────────────────────────────────── */
+    .topbar {
+      border-bottom: 1px solid var(--bg2);
+      padding: 12px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--fg4);
+      background: var(--bg1);
+    }
+    .topbar a { color: var(--fg4); transition: color 0.15s; }
+    .topbar a:hover { color: var(--yellow); }
+    .back-link::before { content: '← '; }
+    .topbar-right { display: flex; gap: 20px; }
+    .topbar-right a { display: flex; align-items: center; gap: 6px; }
+    .topbar-right svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* ── Masthead ─────────────────────────────────────── */
+    .masthead {
+      border-bottom: 3px double var(--bg3);
+      padding: 0 40px;
+    }
+    .masthead-site {
+      text-align: center;
+      padding: 10px 0 8px;
+      border-bottom: 1px solid var(--bg2);
+      font-family: 'Playfair Display', serif;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--fg4);
+    }
+    .masthead-site a { transition: color 0.15s; }
+    .masthead-site a:hover { color: var(--yellow); }
+
+    /* ── Hero headline ────────────────────────────────── */
+    .headline-section {
+      padding: 36px 40px 0;
+      max-width: 1160px;
+      margin: 0 auto;
+    }
+
+    .headline-kicker {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .headline-kicker::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--bg2);
+    }
+
+    .headline-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(52px, 7vw, 84px);
+      font-weight: 900;
+      color: var(--fg);
+      line-height: 0.95;
+      letter-spacing: 0.01em;
+      margin-bottom: 20px;
+    }
+
+    .headline-deck {
+      font-family: 'Lora', serif;
+      font-size: 19px;
+      font-style: italic;
+      color: var(--fg3);
+      line-height: 1.65;
+      max-width: 700px;
+      margin-bottom: 24px;
+      border-left: 3px solid var(--yellow);
+      padding-left: 20px;
+    }
+
+    /* Stats ribbon */
+    .stats-ribbon {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      border-top: 1px solid var(--bg2);
+      border-bottom: 1px solid var(--bg2);
+      margin-bottom: 0;
+    }
+    .stat-item {
+      padding: 12px 24px 12px 0;
+      margin-right: 24px;
+      border-right: 1px solid var(--bg2);
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray);
+      display: block;
+      margin-bottom: 2px;
+    }
+    .stat-value {
+      font-size: 14px;
+      color: var(--fg2);
+    }
+
+    /* ── Award banner ─────────────────────────────────── */
+    .award-banner {
+      background: var(--bg1);
+      border: 1px solid var(--yellow);
+      border-left: 4px solid var(--yellow);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--fg2);
+      margin-top: 20px;
+    }
+    .award-banner .trophy { font-size: 20px; flex-shrink: 0; }
+    .award-banner strong { color: var(--yellow); }
+
+    /* ── Hero image ───────────────────────────────────── */
+    .hero-image {
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      position: relative;
+      margin-top: 28px;
+      border: 1px solid var(--bg2);
+    }
+    .hero-image img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: sepia(0.1) saturate(0.9) brightness(0.9);
+      display: block;
+    }
+    .hero-image-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(28,24,22,0.85));
+      padding: 20px 20px 12px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--fg4);
+      font-style: italic;
+    }
+
+    /* ── Body layout ──────────────────────────────────── */
+    .body-wrap {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 40px 80px;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 0;
+      align-items: start;
+    }
+
+    /* ── Main column ──────────────────────────────────── */
+    .main-col {
+      border-right: 1px solid var(--bg2);
+      padding-right: 40px;
+      padding-top: 36px;
+    }
+
+    .section-rule {
+      border: none;
+      border-top: 1px solid var(--bg2);
+      margin: 32px 0 24px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--fg4);
+      margin-bottom: 16px;
+    }
+
+    .body-text {
+      font-size: 16px;
+      color: var(--fg3);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+    .body-text:last-child { margin-bottom: 0; }
+
+    /* Pull quote */
+    .pull-quote {
+      border-top: 2px solid var(--fg4);
+      border-bottom: 1px solid var(--bg2);
+      padding: 20px 0 16px;
+      margin: 32px 0;
+    }
+    .pull-quote p {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-style: italic;
+      color: var(--fg);
+      line-height: 1.45;
+    }
+
+    /* Feature list */
+    .feature-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 16px;
+      margin-bottom: 16px;
+    }
+    .feature-list li {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--fg3);
+      padding-left: 14px;
+      position: relative;
+    }
+    .feature-list li::before {
+      content: '·';
+      position: absolute;
+      left: 0;
+      color: var(--orange);
+    }
+
+    /* Screenshot strip */
+    .screenshot-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 12px 6px;  /* room for pop-out to breathe */
+    }
+    .screenshot-grid a {
+      display: block;
+      overflow: hidden;
+      border: 1px solid var(--bg2);
+      aspect-ratio: 4/3;
+      position: relative;
+      z-index: 0;
+      transform-origin: center center;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, z-index 0s;
+    }
+    .screenshot-grid a:hover {
+      transform: scale(1.10);
+      border-color: var(--yellow);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 0 1px var(--yellow);
+      z-index: 10;
+    }
+    .screenshot-grid img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: sepia(0.15) saturate(0.85) brightness(0.85);
+      transition: filter 0.25s, transform 0.25s;
+      display: block;
+    }
+    .screenshot-grid a:hover img {
+      filter: sepia(0) saturate(1) brightness(1);
+      transform: scale(1.04);
+    }
+
+    /* Editor gif */
+    .editor-figure {
+      border: 1px solid var(--bg2);
+      margin: 24px 0 8px;
+    }
+    .editor-figure img { width: 100%; display: block; }
+    .figure-caption {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--gray);
+      font-style: italic;
+      padding: 8px 12px;
+      border-top: 1px solid var(--bg2);
+      background: var(--bg1);
+    }
+
+    /* Credits table */
+    .credits-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin-top: 12px;
+    }
+    .credits-table tr {
+      border-bottom: 1px solid var(--bg2);
+    }
+    .credits-table tr:last-child { border-bottom: none; }
+    .credits-table td {
+      padding: 9px 0;
+      vertical-align: top;
+    }
+    .credits-table td:first-child {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      color: var(--fg);
+      width: 52%;
+      padding-right: 16px;
+    }
+    .credits-table td:last-child {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--fg4);
+    }
+    .credits-table a { color: var(--blue); transition: color 0.15s; }
+    .credits-table a:hover { color: var(--yellow); }
+
+    /* ── Sidebar ──────────────────────────────────────── */
+    .sidebar {
+      padding-left: 32px;
+      padding-top: 36px;
+    }
+
+    .sidebar-block {
+      border-bottom: 1px solid var(--bg2);
+      padding-bottom: 24px;
+      margin-bottom: 24px;
+    }
+    .sidebar-block:last-child { border-bottom: none; }
+
+    .sidebar-heading {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--bg2);
+    }
+
+    /* Links */
+    .sidebar-links { display: flex; flex-direction: column; gap: 8px; }
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--fg3);
+      padding: 8px 12px;
+      border: 1px solid var(--bg2);
+      background: var(--bg1);
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+    .sidebar-link:hover {
+      border-color: var(--yellow);
+      color: var(--yellow);
+      background: var(--bg2);
+    }
+    .sidebar-link svg { width: 15px; height: 15px; fill: currentColor; flex-shrink: 0; }
+    .sidebar-link-label { flex: 1; }
+    .sidebar-link-arrow { color: var(--bg3); transition: color 0.15s; }
+    .sidebar-link:hover .sidebar-link-arrow { color: var(--yellow); }
+
+    /* Tags */
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 5px; }
+    .tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      padding: 2px 8px;
+      border: 1px solid;
+    }
+    .tag-lang   { color: var(--blue);   border-color: var(--blue);   background: rgba(131,165,152,0.08); }
+    .tag-api    { color: var(--red);    border-color: var(--red);    background: rgba(251,73,52,0.08);  }
+    .tag-engine { color: var(--aqua);   border-color: var(--aqua);   background: rgba(142,192,124,0.08);}
+    .tag-misc   { color: var(--orange); border-color: var(--orange); background: rgba(254,128,25,0.08); }
+    .tag-purple { color: var(--purple); border-color: var(--purple); background: rgba(211,134,155,0.08);}
+
+    /* Awards sidebar */
+    .award-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+    .award-item:last-child { margin-bottom: 0; }
+    .award-icon { color: var(--yellow); font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .award-text { font-size: 13px; color: var(--fg3); line-height: 1.5; }
+    .award-text strong { color: var(--fg); font-family: 'Playfair Display', serif; font-size: 14px; display: block; }
+
+    /* Sidebar info rows */
+    .info-rows { display: flex; flex-direction: column; gap: 0; }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--bg2);
+      gap: 12px;
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-row-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray);
+      flex-shrink: 0;
+    }
+    .info-row-value {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--fg3);
+      text-align: right;
+    }
+
+    /* ── Footer ──────────────────────────────────────── */
+    .footer {
+      border-top: 3px double var(--bg3);
+      padding: 26px 40px;
+      text-align: center;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--gray);
+      letter-spacing: 0.08em;
+    }
+    .footer a { color: var(--fg4); transition: color 0.15s; }
+    .footer a:hover { color: var(--yellow); }
+    .footer-sep { margin: 0 12px; color: var(--bg3); }
+
+    /* ── Responsive ──────────────────────────────────── */
+    @media (max-width: 900px) {
+      .body-wrap { grid-template-columns: 1fr; }
+      .main-col { border-right: none; padding-right: 0; }
+      .sidebar { padding-left: 0; padding-top: 0; border-top: 1px solid var(--bg2); }
+      .headline-section, .body-wrap, .topbar, .masthead, .footer { padding-left: 20px; padding-right: 20px; }
+    }
+    @media (max-width: 600px) {
+      .feature-list { grid-template-columns: 1fr; }
+      .screenshot-grid { grid-template-columns: 1fr 1fr; }
+      .stats-ribbon { flex-direction: column; }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--bg2); padding: 10px 0; margin-right: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Top bar ──────────────────────────────────────── -->
+<div class="topbar">
+  <a href="../index.html" class="back-link">Portfolio</a>
+  <div class="topbar-right">
+    <a href="https://github.com/0GreenClover0/Engine" target="_blank">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.021C22 6.484 17.522 2 12 2z"/></svg>
+      Source Code
+    </a>
+    <a href="https://oelj.itch.io/guiding-light" target="_blank">
+      <svg viewBox="0 0 24 24"><path d="M3.13 1.338C2.08 1.96.02 4.328 0 4.95v1.03c0 1.303 1.22 2.45 2.325 2.45 1.33 0 2.436-1.102 2.436-2.41 0 1.308 1.07 2.41 2.4 2.41 1.328 0 2.362-1.102 2.362-2.41 0 1.308 1.104 2.41 2.433 2.41h.032c1.328 0 2.432-1.102 2.432-2.41 0 1.308 1.035 2.41 2.363 2.41 1.33 0 2.4-1.102 2.4-2.41 0 1.308 1.106 2.41 2.435 2.41C22.78 8.43 24 7.283 24 5.98V4.95c-.02-.622-2.08-2.99-3.13-3.612C19.486.86 12.762.75 12 .75c-.762 0-7.486.11-8.87.588zm7.91 8.88c-.458 0-.9.043-1.328.1a14.67 14.67 0 0 0-.016 0c-2.293.324-3.955 1.47-3.955 3.81v.79c0 3.24 0 7.42 6.29 7.42 6.29 0 6.29-4.18 6.29-7.42v-.79c0-2.34-1.66-3.486-3.954-3.81a13.38 13.38 0 0 0-1.327-.1zm-.032 2.18c1.8 0 3.212 1.14 3.212 2.55 0 1.41-1.412 2.55-3.212 2.55-1.8 0-3.21-1.14-3.21-2.55 0-1.41 1.41-2.55 3.21-2.55z"/></svg>
+      Play on itch.io
+    </a>
+  </div>
+</div>
+
+<!-- ── Masthead ──────────────────────────────────────── -->
+<header class="masthead">
+  <div class="masthead-site">
+    <a href="../index.html">Mikołaj Przybylski &nbsp;·&nbsp; Portfolio</a>
+  </div>
+</header>
+
+<!-- ── Headline ──────────────────────────────────────── -->
+<div class="headline-section">
+  <div class="headline-kicker">Casual · Time Management · Custom Engine &nbsp;·&nbsp; June 2024</div>
+
+  <h1 class="headline-title">Guiding Light</h1>
+
+  <p class="headline-deck">
+    You're a lighthouse keeper and a courier… at once. Operate alone at the Pole of Cold,
+    feed the penguins, guide the ships, and upgrade your lighthouse before the polar night claims you.
+  </p>
+
+  <div class="award-banner">
+    <span class="trophy">🏆</span>
+    <div>
+      <strong>ZTGK 2024</strong> — Game Development Category Winner &nbsp;&amp;&nbsp; Activision Special Award Winner
+    </div>
+  </div>
+
+  <div class="stats-ribbon" style="margin-top: 20px;">
+    <div class="stat-item">
+      <span class="stat-label">Team Size</span>
+      <span class="stat-value">8 people</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Duration</span>
+      <span class="stat-value">4 months</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Released</span>
+      <span class="stat-value">June 28, 2024</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Platform</span>
+      <span class="stat-value">Windows (itch.io)</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Engine</span>
+      <span class="stat-value">Custom C++23</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Graphics API</span>
+      <span class="stat-value">DirectX 11 (initially OpenGL)</span>
+    </div>
+  </div>
+
+  <div class="hero-image">
+    <img src="./game.webp" alt="Guiding Light gameplay" />
+    <div class="hero-image-caption">Gameplay gif of one of the Guiding Light's six levels.</div>
+  </div>
+</div>
+
+<!-- ── Body ──────────────────────────────────────────── -->
+<div class="body-wrap">
+
+  <!-- Main column -->
+  <article class="main-col">
+
+    <!-- Overview -->
+    <div class="section-title">About the Game</div>
+    <p class="body-text">
+      Guiding Light is a casual time-management game developed alongside its own game engine as part of
+      coursework at the Lodz University of Technology. Set on a lonely arctic island, the player juggles
+      the duties of a lighthouse keeper and a supply courier — rotating the lighthouse beam to steer ships
+      away from rocks, picking up food deliveries, and keeping a colony of penguins fed, all while
+      managing upgrades before the polar night rolls in.
+    </p>
+    <p class="body-text">
+      The game was built over four months by a team of eight, including four programmers. I was the technical lead of the project, laying down foundations for most of the systems. The game won both the main Game Development
+      category and the Activision special prize at ZTGK 2024 — a national Polish student game development competition.
+    </p>
+
+    <div class="pull-quote">
+      <p>"Get ready to prevent shipwrecks and master the polar night!"</p>
+    </div>
+
+    <!-- Screenshots -->
+    <div class="section-title">Screenshots</div>
+    <div class="screenshot-grid">
+      <a href="https://img.itch.zone/aW1hZ2UvMjgyMjczMS8xNjg2Mzk5MS5wbmc=/original/Cm1BbH.png" target="_blank">
+        <img src="https://img.itch.zone/aW1hZ2UvMjgyMjczMS8xNjg2Mzk5MS5wbmc=/347x500/NQZzy3.png" alt="Screenshot 1" />
+      </a>
+      <a href="https://img.itch.zone/aW1hZ2UvMjgyMjczMS8xNjg2Mzk5Mi5wbmc=/original/qqWYrW.png" target="_blank">
+        <img src="https://img.itch.zone/aW1hZ2UvMjgyMjczMS8xNjg2Mzk5Mi5wbmc=/347x500/IUHjQ9.png" alt="Screenshot 2" />
+      </a>
+      <a href="https://img.itch.zone/aW1hZ2UvMjgyMjczMS8xNjg2Mzk5My5wbmc=/original/NAmlVq.png" target="_blank">
+        <img src="https://img.itch.zone/aW1hZ2UvMjgyMjczMS8xNjg2Mzk5My5wbmc=/347x500/NAmlVq.png" alt="Screenshot 3" />
+      </a>
+    </div>
+
+    <hr class="section-rule" />
+
+    <!-- Engine -->
+    <div class="section-title">The Engine</div>
+    <p class="body-text">
+      One of the great features of the Lodz University of Technology curriculum is that, during the sixth semester, students are organized into teams and undertake a semester-long project to develop their own game engine and build a game using it.
+    </p>
+    <p class="body-text">
+      We've built our Engine from scratch in modern C++23.
+      The architecture follows a Unity-style Object-Component model. The graphics API started as OpenGL
+      but was ported to DirectX 11 early-development. A custom Python-based header tool — inspired by
+      Unreal's UnrealHeaderTool — generates serialization and deserialization code for all components
+      by parsing C++ headers automatically. 
+    </p>
+
+    <ul class="feature-list">
+      <li>2D physics engine (collision detection &amp; resolution)</li>
+      <li>Resource Manager (shared models &amp; textures &amp; shaders)</li>
+      <li>Runtime prefab loading</li>
+      <li>Input and Event systems</li>
+      <li>UI system</li>
+      <li>Custom EngineHeaderTool (Python, codegen)</li>
+      <li>Scene and prefab editor</li>
+      <li>Shader hot-swapping</li>
+    </ul>
+
+    <div class="editor-figure">
+      <img src="https://github.com/0GreenClover0/Engine/raw/main/readme_files/engine.gif" alt="Engine editor in action" />
+      <div class="figure-caption">Custom editor — gizmos, curve editors, debug drawings, and component inspectors.</div>
+    </div>
+
+    <hr class="section-rule" />
+
+    <!-- Rendering -->
+    <div class="section-title">Rendering</div>
+    <p class="body-text">
+      The renderer uses deferred shading for opaque geometry, switching to forward rendering for
+      transparent objects and UI. A range of real-time rendering techniques were implemented to
+      achieve the game's cold, moody arctic atmosphere.
+    </p>
+
+    <ul class="feature-list">
+      <li>Gerstner wave water geometry</li>
+      <li>Volumetric light scattering</li>
+      <li>Screen Space Reflections (SSR)</li>
+      <li>Screen Space Refraction</li>
+      <li>Shadow mapping (point lights)</li>
+      <li>SSAO</li>
+      <li>Particle systems (CPU)</li>
+      <li>FXAA</li>
+      <li>Percentage-Closer Soft Shadows</li>
+      <li>Deferred + forward hybrid pipeline</li>
+    </ul>
+
+    <hr class="section-rule" />
+
+    <!-- Credits -->
+    <div class="section-title">Credits</div>
+    <table class="credits-table">
+      <tr>
+        <td><a href="https://github.com/0GreenClover0" target="_blank">Mikołaj Przybylski</a></td>
+        <td>Programming Lead</td>
+      </tr>
+      <tr>
+        <td><a href="https://github.com/MikeMG-PL" target="_blank">Michał Galiński</a></td>
+        <td>Production Lead</td>
+      </tr>
+      <tr>
+        <td><a href="https://github.com/boniffacy" target="_blank">Jakub Januszewicz</a></td>
+        <td>2D &amp; Branding Lead</td>
+      </tr>
+      <tr>
+        <td><a href="https://github.com/MiloszKawczynski" target="_blank">Miłosz Kawczyński</a></td>
+        <td>Design Lead</td>
+      </tr>
+      <tr>
+        <td><a href="https://github.com/nadkow" target="_blank">Nadia Kowalska</a></td>
+        <td>3D Art Lead</td>
+      </tr>
+      <tr>
+        <td><a href="https://github.com/umbc1ok" target="_blank">Hubert Olejnik</a></td>
+        <td>Rendering Lead</td>
+      </tr>
+      <tr>
+        <td><a href="https://soundcloud.com/michal_swistak" target="_blank">Michał Świstak</a></td>
+        <td>Sound Design</td>
+      </tr>
+      <tr>
+        <td><a href="https://www.linkedin.com/in/julian-rakowski/" target="_blank">Julian Rakowski</a></td>
+        <td>Voice Acting</td>
+      </tr>
+    </table>
+
+  </article>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Play &amp; Source</div>
+      <div class="sidebar-links">
+        <a class="sidebar-link" href="https://oelj.itch.io/guiding-light" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M3.13 1.338C2.08 1.96.02 4.328 0 4.95v1.03c0 1.303 1.22 2.45 2.325 2.45 1.33 0 2.436-1.102 2.436-2.41 0 1.308 1.07 2.41 2.4 2.41 1.328 0 2.362-1.102 2.362-2.41 0 1.308 1.104 2.41 2.433 2.41h.032c1.328 0 2.432-1.102 2.432-2.41 0 1.308 1.035 2.41 2.363 2.41 1.33 0 2.4-1.102 2.4-2.41 0 1.308 1.106 2.41 2.435 2.41C22.78 8.43 24 7.283 24 5.98V4.95c-.02-.622-2.08-2.99-3.13-3.612C19.486.86 12.762.75 12 .75c-.762 0-7.486.11-8.87.588zm7.91 8.88c-.458 0-.9.043-1.328.1a14.67 14.67 0 0 0-.016 0c-2.293.324-3.955 1.47-3.955 3.81v.79c0 3.24 0 7.42 6.29 7.42 6.29 0 6.29-4.18 6.29-7.42v-.79c0-2.34-1.66-3.486-3.954-3.81a13.38 13.38 0 0 0-1.327-.1zm-.032 2.18c1.8 0 3.212 1.14 3.212 2.55 0 1.41-1.412 2.55-3.212 2.55-1.8 0-3.21-1.14-3.21-2.55 0-1.41 1.41-2.55 3.21-2.55z"/></svg>
+          <span class="sidebar-link-label">Play on itch.io</span>
+          <span class="sidebar-link-arrow">→</span>
+        </a>
+        <a class="sidebar-link" href="https://github.com/0GreenClover0/Engine" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.021C22 6.484 17.522 2 12 2z"/></svg>
+          <span class="sidebar-link-label">Source on GitHub</span>
+          <span class="sidebar-link-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Awards</div>
+      <div class="award-item">
+        <span class="award-icon">🏆</span>
+        <div class="award-text">
+          <strong>ZTGK 2024</strong>
+          Game Development Category Winner
+        </div>
+      </div>
+      <div class="award-item">
+        <span class="award-icon">🏆</span>
+        <div class="award-text">
+          <strong>ZTGK 2024</strong>
+          Activision Special Award
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Project Info</div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">Genre</span>
+          <span class="info-row-value">Casual / Strategy</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Team</span>
+          <span class="info-row-value">8 people</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Duration</span>
+          <span class="info-row-value">4 months</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Released</span>
+          <span class="info-row-value">Jun 28, 2024</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">License</span>
+          <span class="info-row-value">BSD-3-Clause</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Input</span>
+          <span class="info-row-value">Keyboard + Mouse</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Tech</div>
+      <div class="tag-cloud">
+        <span class="tag tag-lang">c++23</span>
+        <span class="tag tag-lang">python</span>
+        <span class="tag tag-api">directx 11</span>
+        <span class="tag tag-api">hlsl</span>
+        <span class="tag tag-engine">custom engine</span>
+        <span class="tag tag-engine">cmake</span>
+        <span class="tag tag-misc">deferred rendering</span>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Third-party Libraries</div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">Editor UI</span>
+          <span class="info-row-value">ImGui, ImGuizmo, ImPlot</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Audio</span>
+          <span class="info-row-value">miniaudio</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Math</span>
+          <span class="info-row-value">glm</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Serialization</span>
+          <span class="info-row-value">yaml-cpp</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Window</span>
+          <span class="info-row-value">glfw</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Assets</span>
+          <span class="info-row-value">assimp, stb_image</span>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+</div><!-- /.body-wrap -->
+
+<footer class="footer">
+  <a href="../index.html">← Back to Portfolio</a>
+  <span class="footer-sep">&middot;</span>
+  <a href="https://github.com/0GreenClover0" target="_blank">github.com/0GreenClover0</a>
+  <span class="footer-sep">&middot;</span>
+  <a href="mailto:m.przybylski.inbox@gmail.com">m.przybylski.inbox@gmail.com</a>
+</footer>
+
+</body>
+</html>
