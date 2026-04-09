@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Heartbreaker — Mikołaj Przybylski</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:     #282828;
+      --bg1:    #3c3836;
+      --bg2:    #504945;
+      --bg3:    #665c54;
+      --bg4:    #7c6f64;
+      --fg:     #ebdbb2;
+      --fg2:    #d5c4a1;
+      --fg3:    #bdae93;
+      --fg4:    #a89984;
+      --red:    #fb4934;
+      --green:  #b8bb26;
+      --yellow: #fabd2f;
+      --blue:   #83a598;
+      --aqua:   #8ec07c;
+      --orange: #fe8019;
+      --gray:   #928374;
+      --purple: #d3869b;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg2);
+      font-family: 'Lora', Georgia, serif;
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Top bar ── */
+    .topbar {
+      border-bottom: 1px solid var(--bg2);
+      padding: 12px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--fg4);
+      background: var(--bg1);
+    }
+    .topbar a { color: var(--fg4); transition: color 0.15s; }
+    .topbar a:hover { color: var(--yellow); }
+    .back-link::before { content: '← '; }
+    .topbar-right { display: flex; gap: 20px; }
+    .topbar-right a { display: flex; align-items: center; gap: 6px; }
+    .topbar-right svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* ── Masthead ── */
+    .masthead { border-bottom: 3px double var(--bg3); padding: 0 40px; }
+    .masthead-site {
+      text-align: center;
+      padding: 10px 0 8px;
+      border-bottom: 1px solid var(--bg2);
+      font-family: 'Playfair Display', serif;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--fg4);
+    }
+    .masthead-site a { transition: color 0.15s; }
+    .masthead-site a:hover { color: var(--yellow); }
+
+    /* ── Headline ── */
+    .headline-section {
+      padding: 36px 40px 0;
+      max-width: 1160px;
+      margin: 0 auto;
+    }
+    .headline-kicker {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .headline-kicker::after { content: ''; flex: 1; height: 1px; background: var(--bg2); }
+    .headline-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(52px, 7vw, 84px);
+      font-weight: 900;
+      color: var(--fg);
+      line-height: 0.95;
+      letter-spacing: 0.01em;
+      margin-bottom: 20px;
+    }
+    .headline-deck {
+      font-family: 'Lora', serif;
+      font-size: 19px;
+      font-style: italic;
+      color: var(--fg3);
+      line-height: 1.65;
+      max-width: 700px;
+      margin-bottom: 24px;
+      border-left: 3px solid var(--yellow);
+      padding-left: 20px;
+    }
+
+    /* Stats ribbon */
+    .stats-ribbon {
+      display: flex;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--bg2);
+      border-bottom: 1px solid var(--bg2);
+    }
+    .stat-item {
+      padding: 12px 24px 12px 0;
+      margin-right: 24px;
+      border-right: 1px solid var(--bg2);
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); display: block; margin-bottom: 2px; }
+    .stat-value { font-size: 14px; color: var(--fg2); }
+
+    /* Award banner */
+    .award-banner {
+      background: var(--bg1);
+      border: 1px solid var(--yellow);
+      border-left: 4px solid var(--yellow);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--fg2);
+      margin-top: 20px;
+    }
+    .award-banner .trophy { font-size: 20px; flex-shrink: 0; }
+    .award-banner strong { color: var(--yellow); }
+
+    /* Hero video */
+    .hero-video {
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      position: relative;
+      margin-top: 28px;
+      border: 1px solid var(--bg2);
+      background: #000;
+    }
+    .hero-video video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .hero-video-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(28,24,22,0.85));
+      padding: 20px 20px 12px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--fg4);
+      font-style: italic;
+    }
+
+    /* ── Body layout ── */
+    .body-wrap {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 40px 80px;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 0;
+      align-items: start;
+    }
+
+    .main-col {
+      border-right: 1px solid var(--bg2);
+      padding-right: 40px;
+      padding-top: 36px;
+    }
+
+    .section-rule { border: none; border-top: 1px solid var(--bg2); margin: 32px 0 24px; }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--fg4);
+      margin-bottom: 16px;
+    }
+
+    .body-text { font-size: 16px; color: var(--fg3); line-height: 1.8; margin-bottom: 16px; }
+    .body-text:last-child { margin-bottom: 0; }
+
+    /* Pull quote */
+    .pull-quote {
+      border-top: 2px solid var(--fg4);
+      border-bottom: 1px solid var(--bg2);
+      padding: 20px 0 16px;
+      margin: 32px 0;
+    }
+    .pull-quote p {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-style: italic;
+      color: var(--fg);
+      line-height: 1.45;
+    }
+
+    /* Feature list */
+    .feature-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 16px;
+      margin-bottom: 16px;
+    }
+    .feature-list li {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--fg3);
+      padding-left: 14px;
+      position: relative;
+    }
+    .feature-list li::before { content: '·'; position: absolute; left: 0; color: var(--orange); }
+
+    /* Screenshot strip */
+    .screenshot-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 12px 6px;
+    }
+    .screenshot-grid a {
+      display: block;
+      overflow: hidden;
+      border: 1px solid var(--bg2);
+      aspect-ratio: 4/3;
+      position: relative;
+      z-index: 0;
+      transform-origin: center center;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .screenshot-grid a:hover {
+      transform: scale(1.10);
+      border-color: var(--yellow);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.7), 0 0 0 1px var(--yellow);
+      z-index: 10;
+    }
+    .screenshot-grid img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: sepia(0.15) saturate(0.85) brightness(0.85);
+      transition: filter 0.25s, transform 0.25s;
+      display: block;
+    }
+    .screenshot-grid a:hover img {
+      filter: sepia(0) saturate(1) brightness(1);
+      transform: scale(1.04);
+    }
+
+    /* Contributions box */
+    .contributions-box {
+      background: var(--bg1);
+      border: 1px solid var(--bg2);
+      border-left: 4px solid var(--purple);
+      padding: 24px 28px;
+      margin-top: 12px;
+    }
+    .contributions-box .body-text { color: var(--fg3); }
+    .contrib-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .contrib-list li {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--fg3);
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.6;
+    }
+    .contrib-list li::before { content: '→'; position: absolute; left: 0; color: var(--purple); }
+
+    /* Credits table */
+    .credits-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 12px; }
+    .credits-table tr { border-bottom: 1px solid var(--bg2); }
+    .credits-table tr:last-child { border-bottom: none; }
+    .credits-table td { padding: 9px 0; vertical-align: top; }
+    .credits-table td:first-child {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      color: var(--fg);
+      width: 52%;
+      padding-right: 16px;
+    }
+    .credits-table td:last-child {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--fg4);
+    }
+    .credits-table a { color: var(--blue); transition: color 0.15s; }
+    .credits-table a:hover { color: var(--yellow); }
+    .credits-table .you { color: var(--yellow) !important; }
+
+    /* ── Sidebar ── */
+    .sidebar { padding-left: 32px; padding-top: 36px; }
+    .sidebar-block { border-bottom: 1px solid var(--bg2); padding-bottom: 24px; margin-bottom: 24px; }
+    .sidebar-block:last-child { border-bottom: none; }
+    .sidebar-heading {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--bg2);
+    }
+    .sidebar-links { display: flex; flex-direction: column; gap: 8px; }
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--fg3);
+      padding: 8px 12px;
+      border: 1px solid var(--bg2);
+      background: var(--bg1);
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+    .sidebar-link:hover { border-color: var(--yellow); color: var(--yellow); background: var(--bg2); }
+    .sidebar-link svg { width: 15px; height: 15px; fill: currentColor; flex-shrink: 0; }
+    .sidebar-link-label { flex: 1; }
+    .sidebar-link-arrow { color: var(--bg3); transition: color 0.15s; }
+    .sidebar-link:hover .sidebar-link-arrow { color: var(--yellow); }
+
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 5px; }
+    .tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      padding: 2px 8px;
+      border: 1px solid;
+    }
+    .tag-lang   { color: var(--blue);   border-color: var(--blue);   background: rgba(131,165,152,0.08); }
+    .tag-api    { color: var(--red);    border-color: var(--red);    background: rgba(251,73,52,0.08);  }
+    .tag-engine { color: var(--aqua);   border-color: var(--aqua);   background: rgba(142,192,124,0.08);}
+    .tag-misc   { color: var(--orange); border-color: var(--orange); background: rgba(254,128,25,0.08); }
+    .tag-purple { color: var(--purple); border-color: var(--purple); background: rgba(211,134,155,0.08);}
+
+    .award-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 14px; }
+    .award-item:last-child { margin-bottom: 0; }
+    .award-icon { color: var(--yellow); font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .award-text { font-size: 13px; color: var(--fg3); line-height: 1.5; }
+    .award-text strong { color: var(--fg); font-family: 'Playfair Display', serif; font-size: 14px; display: block; }
+
+    .info-rows { display: flex; flex-direction: column; }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--bg2);
+      gap: 12px;
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-row-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); flex-shrink: 0; }
+    .info-row-value { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--fg3); text-align: right; }
+
+    /* ── Footer ── */
+    .footer {
+      border-top: 3px double var(--bg3);
+      padding: 26px 40px;
+      text-align: center;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--gray);
+      letter-spacing: 0.08em;
+    }
+    .footer a { color: var(--fg4); transition: color 0.15s; }
+    .footer a:hover { color: var(--yellow); }
+    .footer-sep { margin: 0 12px; color: var(--bg3); }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .body-wrap { grid-template-columns: 1fr; }
+      .main-col { border-right: none; padding-right: 0; }
+      .sidebar { padding-left: 0; padding-top: 0; border-top: 1px solid var(--bg2); }
+      .headline-section, .body-wrap, .topbar, .masthead, .footer { padding-left: 20px; padding-right: 20px; }
+    }
+    @media (max-width: 600px) {
+      .feature-list { grid-template-columns: 1fr; }
+      .screenshot-grid { grid-template-columns: 1fr 1fr; }
+      .stats-ribbon { flex-direction: column; }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--bg2); padding: 10px 0; margin-right: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Top bar ── -->
+<div class="topbar">
+  <a href="../index.html" class="back-link">Portfolio</a>
+  <div class="topbar-right">
+    <a href="https://disco-angels.itch.io/heartbreaker" target="_blank">
+      <svg viewBox="0 0 24 24"><path d="M3.13 1.338C2.08 1.96.02 4.328 0 4.95v1.03c0 1.303 1.22 2.45 2.325 2.45 1.33 0 2.436-1.102 2.436-2.41 0 1.308 1.07 2.41 2.4 2.41 1.328 0 2.362-1.102 2.362-2.41 0 1.308 1.104 2.41 2.433 2.41h.032c1.328 0 2.432-1.102 2.432-2.41 0 1.308 1.035 2.41 2.363 2.41 1.33 0 2.4-1.102 2.4-2.41 0 1.308 1.106 2.41 2.435 2.41C22.78 8.43 24 7.283 24 5.98V4.95c-.02-.622-2.08-2.99-3.13-3.612C19.486.86 12.762.75 12 .75c-.762 0-7.486.11-8.87.588zm7.91 8.88c-.458 0-.9.043-1.328.1a14.67 14.67 0 0 0-.016 0c-2.293.324-3.955 1.47-3.955 3.81v.79c0 3.24 0 7.42 6.29 7.42 6.29 0 6.29-4.18 6.29-7.42v-.79c0-2.34-1.66-3.486-3.954-3.81a13.38 13.38 0 0 0-1.327-.1zm-.032 2.18c1.8 0 3.212 1.14 3.212 2.55 0 1.41-1.412 2.55-3.212 2.55-1.8 0-3.21-1.14-3.21-2.55 0-1.41 1.41-2.55 3.21-2.55z"/></svg>
+      Play on itch.io
+    </a>
+  </div>
+</div>
+
+<!-- ── Masthead ── -->
+<header class="masthead">
+  <div class="masthead-site">
+    <a href="../index.html">Mikołaj Przybylski &nbsp;·&nbsp; Portfolio</a>
+  </div>
+</header>
+
+<!-- ── Headline ── -->
+<div class="headline-section">
+  <div class="headline-kicker">First-Person Platformer · Unreal Engine 5 · October 2022 - May 2024</div>
+
+  <h1 class="headline-title">Heartbreaker</h1>
+
+  <p class="headline-deck">
+    A first-person action platformer where you crash hearts of stone using your movement,
+    set in a picturesque and nostalgic atmosphere.<br>
+    Motion is vigor — use it.
+  </p>
+
+  <div class="award-banner">
+    <span class="trophy">🏆</span>
+    <div>
+      <strong>Game Access 2024</strong> — 1st Place in Best Gameplay &nbsp;&amp;&nbsp;
+      <strong>ZTGK 2023</strong> — 1st Place in Game Design + Techland Special Prize
+    </div>
+  </div>
+
+  <div class="stats-ribbon" style="margin-top: 20px;">
+    <div class="stat-item">
+      <span class="stat-label">Team Size</span>
+      <span class="stat-value">6 people</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Duration</span>
+      <span class="stat-value">18 months</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Released</span>
+      <span class="stat-value">June 01, 2024</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Platform</span>
+      <span class="stat-value">Windows (itch.io)</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Engine</span>
+      <span class="stat-value">Unreal Engine 5</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Version Control</span>
+      <span class="stat-value">Perforce Helix Core</span>
+    </div>
+  </div>
+
+  <!-- Hero video — replace src with your actual video file -->
+<div class="hero-video">
+    <video autoplay muted loop poster="https://img.itch.zone/aW1nLzE2MDA5NDc4LnBuZw==/original/et3x46.png">
+      <source src="./heartbreaker.mp4" />
+      Your browser does not support the video tag.
+    </video>
+  <div class="hero-video-caption">Heartbreaker trailer.</div>
+  </div>
+</div>
+
+<!-- ── Body ── -->
+<div class="body-wrap">
+
+  <article class="main-col">
+
+    <!-- About -->
+    <div class="section-title">About the Game</div>
+    <p class="body-text">
+      Heartbreaker is a first-person 3D platformer made in Unreal Engine 5, developed by Disco Angels —
+      a six-person student team of three programmers, one artist, one composer, and voice actors.
+      The game is set in the world of Elcoro, where the player must literally crash the hardened hearts
+      of its inhabitants to restore joy to the world.
+    </p>
+    <p class="body-text">
+      The game won first place in the Best Gameplay category at Game Access Conference 2024 in Brno,
+      Czech Republic, and first place in Game Design at ZTGK 2023, along with special prizes from
+      Techland and other industry partners. The code was hosted on an AWS server using Perforce Helix Core
+      and is not public as of now.
+    </p>
+
+    <div class="pull-quote">
+      <p>"Would you rest on your laurels, having all you've ever wanted? These people would."</p>
+    </div>
+
+    <!-- Screenshots -->
+    <div class="section-title">Screenshots</div>
+    <div class="screenshot-grid">
+      <a href="https://img.itch.zone/aW1hZ2UvMjE0MjUyNy8xODA2NjA4NC5wbmc=/original/0N6hDL.png" target="_blank">
+        <img src="https://img.itch.zone/aW1hZ2UvMjE0MjUyNy8xODA2NjA4NC5wbmc=/347x500/hqP88z.png" alt="Screenshot 1" />
+      </a>
+      <a href="https://img.itch.zone/aW1hZ2UvMjE0MjUyNy8xODA2NTk5NS5wbmc=/original/Gi9xrl.png" target="_blank">
+        <img src="https://img.itch.zone/aW1hZ2UvMjE0MjUyNy8xODA2NTk5NS5wbmc=/347x500/6vkD9m.png" alt="Screenshot 2" />
+      </a>
+      <a href="https://img.itch.zone/aW1hZ2UvMjE0MjUyNy8xNjAwOTIxNy5wbmc=/original/gtxeQJ.png" target="_blank">
+        <img src="https://img.itch.zone/aW1hZ2UvMjE0MjUyNy8xNjAwOTIxNy5wbmc=/347x500/U7PLtU.png" alt="Screenshot 3" />
+      </a>
+      <a href="https://img.itch.zone/aW1hZ2UvMjE0MjUyNy8xNjAwOTQxMS5wbmc=/original/LsDX1%2F.png" target="_blank">
+        <img src="https://img.itch.zone/aW1hZ2UvMjE0MjUyNy8xNjAwOTQxMS5wbmc=/347x500/%2BjTuD3.png" alt="Screenshot 4" />
+      </a>
+      <a href="https://img.itch.zone/aW1hZ2UvMjE0MjUyNy8xNjAwOTI1OC5wbmc=/original/eUFkEL.png" target="_blank">
+        <img src="https://img.itch.zone/aW1hZ2UvMjE0MjUyNy8xNjAwOTI1OC5wbmc=/347x500/QJD576.png" alt="Screenshot 5" />
+      </a>
+    </div>
+
+    <hr class="section-rule" />
+
+    <!-- My Contributions -->
+    <div class="section-title">My Contributions</div>
+    <div class="contributions-box">
+      <p class="body-text">
+        I was one of three programmers on the project and touched a wide range of systems —
+        from core mechanics and AI to UI, visual effects, and infrastructure.
+      </p>
+      <ul class="contrib-list">
+        <li>Designed and implemented core player movement mechanics and the checkpoint system.</li>
+        <li>Built enemy AI behaviours.</li>
+        <li>Authored a dissolve shader for exploding enemies + set up Chaos Geometry Collections.</li>
+        <li>Implemented a music blending system that transitions dynamically between tracks.</li>
+        <li>Authored a custom subtitles system with support for image insertion and contributed to the UI system (ex. death screen effect).</li>
+        <li>Created particle effects and other visual polish.</li>
+        <li>Contributed to both gameplay design and level design alongside the team.</li>
+        <li>Set up and administered the Perforce Helix Core server hosted on AWS.</li>
+      </ul>
+    </div>
+
+    <hr class="section-rule" />
+
+    <!-- Credits -->
+    <div class="section-title">Credits</div>
+    <table class="credits-table">
+      <tr>
+        <td><a class="you" href="https://github.com/MikeMG-PL" target="_blank">Mikołaj Przybylski</a></td>
+        <td>Programming</td>
+      </tr>
+      <tr>
+        <td><a href="https://www.linkedin.com/in/m-galinski/" target="_blank">Michał Galiński</a></td>
+        <td>Programming, Voice Acting</td>
+      </tr>
+      <tr>
+        <td><a href="https://www.linkedin.com/in/mateuszbanasik/" target="_blank">Mateusz Banasik</a></td>
+        <td>Programming</td>
+      </tr>
+      <tr>
+        <td><a href="https://www.linkedin.com/in/agata-granosik/" target="_blank">Agata Granosik</a></td>
+        <td>2D / 3D Art</td>
+      </tr>
+      <tr>
+        <td><a href="https://soundcloud.com/michal_swistak" target="_blank">Michał Świstak</a></td>
+        <td>Music &amp; Sound Design</td>
+      </tr>
+      <tr>
+        <td>Aleksandra Kwapińska</td>
+        <td>Voice Acting</td>
+      </tr>
+    </table>
+
+  </article>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Play</div>
+      <div class="sidebar-links">
+        <a class="sidebar-link" href="https://disco-angels.itch.io/heartbreaker" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M3.13 1.338C2.08 1.96.02 4.328 0 4.95v1.03c0 1.303 1.22 2.45 2.325 2.45 1.33 0 2.436-1.102 2.436-2.41 0 1.308 1.07 2.41 2.4 2.41 1.328 0 2.362-1.102 2.362-2.41 0 1.308 1.104 2.41 2.433 2.41h.032c1.328 0 2.432-1.102 2.432-2.41 0 1.308 1.035 2.41 2.363 2.41 1.33 0 2.4-1.102 2.4-2.41 0 1.308 1.106 2.41 2.435 2.41C22.78 8.43 24 7.283 24 5.98V4.95c-.02-.622-2.08-2.99-3.13-3.612C19.486.86 12.762.75 12 .75c-.762 0-7.486.11-8.87.588zm7.91 8.88c-.458 0-.9.043-1.328.1a14.67 14.67 0 0 0-.016 0c-2.293.324-3.955 1.47-3.955 3.81v.79c0 3.24 0 7.42 6.29 7.42 6.29 0 6.29-4.18 6.29-7.42v-.79c0-2.34-1.66-3.486-3.954-3.81a13.38 13.38 0 0 0-1.327-.1zm-.032 2.18c1.8 0 3.212 1.14 3.212 2.55 0 1.41-1.412 2.55-3.212 2.55-1.8 0-3.21-1.14-3.21-2.55 0-1.41 1.41-2.55 3.21-2.55z"/></svg>
+          <span class="sidebar-link-label">Play on itch.io</span>
+          <span class="sidebar-link-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Awards</div>
+      <div class="award-item">
+        <span class="award-icon">🏆</span>
+        <div class="award-text">
+          <strong>Game Access 2024</strong>
+          1st Place — Best Gameplay<br/>Brno, Czech Republic
+        </div>
+      </div>
+      <div class="award-item">
+        <span class="award-icon">🏆</span>
+        <div class="award-text">
+          <strong>ZTGK 2023</strong>
+          1st Place — Game Design<br/>Łódź, Poland
+        </div>
+      </div>
+      <div class="award-item">
+        <span class="award-icon">🏅</span>
+        <div class="award-text">
+          <strong>ZTGK 2023</strong>
+          Techland Special Prize
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Project Info</div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">Genre</span>
+          <span class="info-row-value">Action Platformer</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Team</span>
+          <span class="info-row-value">6 people</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Duration</span>
+          <span class="info-row-value">18 months (with breaks)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Status</span>
+          <span class="info-row-value">Released</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Input</span>
+          <span class="info-row-value">Keyboard + Mouse,<br/>Xbox controller</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Accessibility</span>
+          <span class="info-row-value">Subtitles, colorblind modes</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Tech</div>
+      <div class="tag-cloud">
+        <span class="tag tag-engine">unreal engine 5</span>
+        <span class="tag tag-lang">blueprints</span>
+        <span class="tag tag-lang">c++</span>
+        <span class="tag tag-purple">perforce</span>
+        <span class="tag tag-misc">aws</span>
+      </div>
+    </div>
+
+  </aside>
+
+</div>
+
+<footer class="footer">
+  <a href="../index.html">← Back to Portfolio</a>
+  <span class="footer-sep">&middot;</span>
+  <a href="https://github.com/0GreenClover0" target="_blank">github.com/0GreenClover0</a>
+  <span class="footer-sep">&middot;</span>
+  <a href="https://disco-angels.itch.io/heartbreaker" target="_blank">itch.io</a>
+</footer>
+
+</body>
+</html>
