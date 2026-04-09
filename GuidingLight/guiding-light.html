@@ -26,6 +26,8 @@
       --orange: #fe8019;
       --gray:   #928374;
       --purple: #d3869b;
+      --accent: #7fb8d4;
+      --accent-bg: rgba(127,184,212,0.08);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -54,7 +56,7 @@
       background: var(--bg1);
     }
     .topbar a { color: var(--fg4); transition: color 0.15s; }
-    .topbar a:hover { color: var(--yellow); }
+    .topbar a:hover { color: var(--accent); }
     .back-link::before { content: '← '; }
     .topbar-right { display: flex; gap: 20px; }
     .topbar-right a { display: flex; align-items: center; gap: 6px; }
@@ -77,7 +79,7 @@
       color: var(--fg4);
     }
     .masthead-site a { transition: color 0.15s; }
-    .masthead-site a:hover { color: var(--yellow); }
+    .masthead-site a:hover { color: var(--accent); }
 
     /* ── Hero headline ────────────────────────────────── */
     .headline-section {
@@ -122,7 +124,7 @@
       line-height: 1.65;
       max-width: 700px;
       margin-bottom: 24px;
-      border-left: 3px solid var(--yellow);
+      border-left: 3px solid var(--accent);
       padding-left: 20px;
     }
 
@@ -361,6 +363,33 @@
     .credits-table a:hover { color: var(--yellow); }
     .credits-table .you { color: var(--yellow) !important; }
 
+
+    /* Contributions box */
+    .contributions-box {
+      background: var(--bg1);
+      border: 1px solid var(--bg2);
+      border-left: 4px solid var(--accent);
+      padding: 24px 28px;
+      margin-top: 12px;
+    }
+    .contributions-box .body-text { color: var(--fg3); }
+    .contrib-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .contrib-list li {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--fg3);
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.6;
+    }
+    .contrib-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+
     /* ── Sidebar ──────────────────────────────────────── */
     .sidebar {
       padding-left: 32px;
@@ -407,7 +436,7 @@
     .sidebar-link svg { width: 15px; height: 15px; fill: currentColor; flex-shrink: 0; }
     .sidebar-link-label { flex: 1; }
     .sidebar-link-arrow { color: var(--bg3); transition: color 0.15s; }
-    .sidebar-link:hover .sidebar-link-arrow { color: var(--yellow); }
+    .sidebar-link:hover .sidebar-link-arrow { color: var(--accent); }
 
     /* Tags */
     .tag-cloud { display: flex; flex-wrap: wrap; gap: 5px; }
@@ -473,7 +502,7 @@
       letter-spacing: 0.08em;
     }
     .footer a { color: var(--fg4); transition: color 0.15s; }
-    .footer a:hover { color: var(--yellow); }
+    .footer a:hover { color: var(--accent); }
     .footer-sep { margin: 0 12px; color: var(--bg3); }
 
     /* ── Responsive ──────────────────────────────────── */
@@ -667,12 +696,37 @@
 
     <hr class="section-rule" />
 
+    <!-- My Contributions -->
+    <div class="section-title">My Contributions</div>
+    <div class="contributions-box">
+      <p class="body-text">
+        I was the Programming Lead of the project, laying down the foundations for most of the engine's
+        core systems and taking ownership of the overall technical architecture throughout the four months
+        of development. I've set up general coding guidelines and rules as well as made sure they are in force
+        by reviewing pretty much all the code.
+      </p>
+      <ul class="contrib-list">
+        <li>Designed and implemented the Object-Component entity model and core engine loop.</li>
+        <li>Set up runtime prefab loading and the scene serialization pipeline using yaml-cpp.</li>
+        <li>Created most of the main Editor functionalities and layout.</li>
+        <li>Implemented the Input and Event systems used across all game logic.</li>
+        <li>Helped improving: 2D Physics Engine, Renderer, UI, Particle System, Resource Manager,
+            EngineHeaderTool (Python script for automatic (de)serialization codegen, inspired by UnrealHeaderTool).</li>
+        <li>Helped with the gameplay code.</li>
+        <li>Ported the graphics backend from OpenGL to DirectX 11 early in development.</li>
+        <li>Integrated most of the 3rd part libraries including the audio playback via miniaudio.</li>
+        <li>Set up CI/CD pipeline and Pull Request workflow.</li>
+      </ul>
+    </div>
+
+    <hr class="section-rule" />
+
     <!-- Credits -->
     <div class="section-title">Credits</div>
     <table class="credits-table">
       <tr>
         <td><a class="you" href="https://www.linkedin.com/in/miko%C5%82aj-przybylski-5b8865206/" target="_blank">Mikołaj Przybylski</a></td>
-        <td>Programming Lead</td>
+        <td>Engine Programming Lead</td>
       </tr>
       <tr>
         <td><a href="https://www.linkedin.com/in/m-galinski/" target="_blank">Michał Galiński</a></td>
