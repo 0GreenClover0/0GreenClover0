@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gravity Tag — Mikołaj Przybylski</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:     #282828;
+      --bg1:    #3c3836;
+      --bg2:    #504945;
+      --bg3:    #665c54;
+      --bg4:    #7c6f64;
+      --fg:     #ebdbb2;
+      --fg2:    #d5c4a1;
+      --fg3:    #bdae93;
+      --fg4:    #a89984;
+      --red:    #fb4934;
+      --green:  #b8bb26;
+      --yellow: #fabd2f;
+      --blue:   #83a598;
+      --aqua:   #8ec07c;
+      --orange: #fe8019;
+      --gray:   #928374;
+      --purple: #d3869b;
+      --accent: #cce71f;
+      --accent-bg: rgba(204,231,31,0.07);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg2);
+      font-family: 'Lora', Georgia, serif;
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Top bar ── */
+    .topbar {
+      border-bottom: 1px solid var(--bg2);
+      padding: 12px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--fg4);
+      background: var(--bg1);
+    }
+    .topbar a { color: var(--fg4); transition: color 0.15s; }
+    .topbar a:hover { color: var(--accent); }
+    .back-link::before { content: '← '; }
+    .topbar-right { display: flex; gap: 20px; }
+    .topbar-right a { display: flex; align-items: center; gap: 6px; }
+    .topbar-right svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* ── Masthead ── */
+    .masthead { border-bottom: 3px double var(--bg3); padding: 0 40px; }
+    .masthead-site {
+      text-align: center;
+      padding: 10px 0 8px;
+      border-bottom: 1px solid var(--bg2);
+      font-family: 'Playfair Display', serif;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--fg4);
+    }
+    .masthead-site a { transition: color 0.15s; }
+    .masthead-site a:hover { color: var(--accent); }
+
+    /* ── Headline ── */
+    .headline-section { padding: 36px 40px 0; max-width: 1160px; margin: 0 auto; }
+    .headline-kicker {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .headline-kicker::after { content: ''; flex: 1; height: 1px; background: var(--bg2); }
+
+    .headline-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(52px, 7vw, 84px);
+      font-weight: 900;
+      color: var(--fg);
+      line-height: 0.95;
+      letter-spacing: 0.01em;
+      margin-bottom: 20px;
+    }
+    .headline-deck {
+      font-family: 'Lora', serif;
+      font-size: 19px;
+      font-style: italic;
+      color: var(--fg3);
+      line-height: 1.65;
+      max-width: 700px;
+      margin-bottom: 24px;
+      border-left: 3px solid var(--accent);
+      padding-left: 20px;
+    }
+
+    /* In-dev badge */
+    .indev-banner {
+      background: var(--bg1);
+      border: 1px solid var(--accent);
+      border-left: 4px solid var(--accent);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--fg2);
+      margin-top: 20px;
+    }
+    .indev-banner .icon { font-size: 18px; flex-shrink: 0; }
+    .indev-banner strong { color: var(--accent); }
+    .indev-banner .trophy { font-size: 20px; flex-shrink: 0; }
+
+    /* Stats ribbon */
+    .stats-ribbon { display: flex; flex-wrap: wrap; border-top: 1px solid var(--bg2); border-bottom: 1px solid var(--bg2); }
+    .stat-item { padding: 12px 24px 12px 0; margin-right: 24px; border-right: 1px solid var(--bg2); font-family: 'IBM Plex Mono', monospace; }
+    .stat-item:last-child { border-right: none; }
+    .stat-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); display: block; margin-bottom: 2px; }
+    .stat-value { font-size: 14px; color: var(--fg2); }
+
+    /* Hero video */
+    .hero-video {
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      position: relative;
+      margin-top: 28px;
+      border: 1px solid var(--bg2);
+      background: #000;
+    }
+    .hero-video video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-video-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(28,24,22,0.85));
+      padding: 20px 20px 12px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--fg4);
+      font-style: italic;
+    }
+
+    /* ── Body layout ── */
+    .body-wrap {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 40px 80px;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 0;
+      align-items: start;
+    }
+    .main-col { border-right: 1px solid var(--bg2); padding-right: 40px; padding-top: 36px; }
+
+    .section-rule { border: none; border-top: 1px solid var(--bg2); margin: 32px 0 24px; }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--fg4);
+      margin-bottom: 16px;
+    }
+    .body-text { font-size: 16px; color: var(--fg3); line-height: 1.8; margin-bottom: 16px; }
+    .body-text:last-child { margin-bottom: 0; }
+
+    /* Pull quote */
+    .pull-quote { border-top: 2px solid var(--fg4); border-bottom: 1px solid var(--bg2); padding: 20px 0 16px; margin: 32px 0; }
+    .pull-quote p { font-family: 'Playfair Display', serif; font-size: 22px; font-style: italic; color: var(--fg); line-height: 1.45; }
+
+    /* Feature list */
+    .feature-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; margin-bottom: 16px; }
+    .feature-list li { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--fg3); padding-left: 14px; position: relative; }
+    .feature-list li::before { content: '·'; position: absolute; left: 0; color: var(--orange); }
+
+    /* Screenshot strip */
+    .screenshot-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 12px 6px;
+    }
+    .screenshot-grid a {
+      display: block;
+      overflow: hidden;
+      border: 1px solid var(--bg2);
+      aspect-ratio: 16/9;
+      position: relative;
+      z-index: 0;
+      transform-origin: center center;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .screenshot-grid a:hover {
+      transform: scale(1.10);
+      border-color: var(--accent);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.7), 0 0 0 1px var(--accent);
+      z-index: 10;
+    }
+    .screenshot-grid img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: sepia(0.1) saturate(0.85) brightness(0.85);
+      transition: filter 0.25s, transform 0.25s;
+      display: block;
+    }
+    .screenshot-grid a:hover img { filter: sepia(0) saturate(1) brightness(1); transform: scale(1.04); }
+
+    /* Contributions box */
+    .contributions-box {
+      background: var(--bg1);
+      border: 1px solid var(--bg2);
+      border-left: 4px solid var(--accent);
+      padding: 24px 28px;
+      margin-top: 12px;
+    }
+    .contributions-box .body-text { color: var(--fg3); }
+    .contrib-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+    .contrib-list li {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--fg3);
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.6;
+    }
+    .contrib-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+
+    /* Credits table */
+    .credits-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 12px; }
+    .credits-table tr { border-bottom: 1px solid var(--bg2); }
+    .credits-table tr:last-child { border-bottom: none; }
+    .credits-table td { padding: 9px 0; vertical-align: top; }
+    .credits-table td:first-child { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--fg); width: 52%; padding-right: 16px; }
+    .credits-table td:last-child { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--fg4); }
+    .credits-table a { color: var(--blue); transition: color 0.15s; }
+    .credits-table a:hover { color: var(--accent); }
+    .credits-table .you { color: var(--accent) !important; }
+
+    /* ── Sidebar ── */
+    .sidebar { padding-left: 32px; padding-top: 36px; }
+    .sidebar-block { border-bottom: 1px solid var(--bg2); padding-bottom: 24px; margin-bottom: 24px; }
+    .sidebar-block:last-child { border-bottom: none; }
+    .sidebar-heading {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--bg2);
+    }
+    .sidebar-links { display: flex; flex-direction: column; gap: 8px; }
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--fg3);
+      padding: 8px 12px;
+      border: 1px solid var(--bg2);
+      background: var(--bg1);
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+    .sidebar-link:hover { border-color: var(--accent); color: var(--accent); background: var(--bg2); }
+    .sidebar-link svg { width: 15px; height: 15px; fill: currentColor; flex-shrink: 0; }
+    .sidebar-link-label { flex: 1; }
+    .sidebar-link-arrow { color: var(--bg3); transition: color 0.15s; }
+    .sidebar-link:hover .sidebar-link-arrow { color: var(--accent); }
+
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 5px; }
+    .tag { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; padding: 2px 8px; border: 1px solid; }
+    .tag-lang   { color: var(--blue);   border-color: var(--blue);   background: rgba(131,165,152,0.08); }
+    .tag-api    { color: var(--red);    border-color: var(--red);    background: rgba(251,73,52,0.08);  }
+    .tag-engine { color: var(--aqua);   border-color: var(--aqua);   background: rgba(142,192,124,0.08);}
+    .tag-misc   { color: var(--orange); border-color: var(--orange); background: rgba(254,128,25,0.08); }
+    .tag-accent { color: var(--accent); border-color: var(--accent); background: var(--accent-bg); }
+
+    .award-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 14px; }
+    .award-item:last-child { margin-bottom: 0; }
+    .award-icon { color: var(--yellow); font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .award-text { font-size: 13px; color: var(--fg3); line-height: 1.5; }
+    .award-text strong { color: var(--fg); font-family: 'Playfair Display', serif; font-size: 14px; display: block; }
+
+    .info-rows { display: flex; flex-direction: column; }
+    .info-row { display: flex; justify-content: space-between; align-items: baseline; padding: 7px 0; border-bottom: 1px solid var(--bg2); gap: 12px; }
+    .info-row:last-child { border-bottom: none; }
+    .info-row-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); flex-shrink: 0; }
+    .info-row-value { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--fg3); text-align: right; }
+
+    /* ── Footer ── */
+    .footer { border-top: 3px double var(--bg3); padding: 26px 40px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--gray); letter-spacing: 0.08em; }
+    .footer a { color: var(--fg4); transition: color 0.15s; }
+    .footer a:hover { color: var(--accent); }
+    .footer-sep { margin: 0 12px; color: var(--bg3); }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .body-wrap { grid-template-columns: 1fr; }
+      .main-col { border-right: none; padding-right: 0; }
+      .sidebar { padding-left: 0; padding-top: 0; border-top: 1px solid var(--bg2); }
+      .headline-section, .body-wrap, .topbar, .masthead, .footer { padding-left: 20px; padding-right: 20px; }
+    }
+    @media (max-width: 600px) {
+      .feature-list { grid-template-columns: 1fr; }
+      .screenshot-grid { grid-template-columns: 1fr 1fr; }
+      .stats-ribbon { flex-direction: column; }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--bg2); padding: 10px 0; margin-right: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Top bar ── -->
+<div class="topbar">
+  <a href="../index.html" class="back-link">Portfolio</a>
+  <div class="topbar-right">
+    <a href="https://discord.gg/jkyzsvQ69u" target="_blank">
+      <!-- Discord icon -->
+      <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.033.055a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+      Join Discord
+    </a>
+  </div>
+</div>
+
+<!-- ── Masthead ── -->
+<header class="masthead">
+  <div class="masthead-site">
+    <a href="../index.html">Mikołaj Przybylski &nbsp;·&nbsp; Portfolio</a>
+  </div>
+</header>
+
+<!-- ── Headline ── -->
+<div class="headline-section">
+  <div class="headline-kicker">2D Platformer · Competitive · GameMaker · In Production</div>
+
+  <h1 class="headline-title">Gravity Tag</h1>
+
+  <p class="headline-deck">
+    High-speed, high-pressure chases in a dynamic gravity system — alternating between
+    platformer and top-down views. Outwit your opponent. Master the perspective shift.
+  </p>
+
+  <div class="indev-banner">
+    <span class="icon">⚙</span>
+    <div>
+      Currently <strong>in production</strong> — no public release yet.
+      Follow development on <a href="https://discord.gg/jkyzsvQ69u" target="_blank" style="color:var(--accent); text-decoration: underline;">Discord</a>.
+      <strong>🏆 ZTGK 2025</strong> — 1st Place in Game Design
+    </div>
+  </div>
+
+  <div class="stats-ribbon" style="margin-top: 20px;">
+    <div class="stat-item">
+      <span class="stat-label">Team Size</span>
+      <span class="stat-value">8 people</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Programmers</span>
+      <span class="stat-value">2</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Engine</span>
+      <span class="stat-value">GameMaker</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Genre</span>
+      <span class="stat-value">Competitive Platformer</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Status</span>
+      <span class="stat-value">In Development</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Netcode</span>
+      <span class="stat-value">Rollback (Steam)</span>
+    </div>
+  </div>
+
+  <!-- Hero video — replace src with your actual file -->
+  <div class="hero-video">
+    <video autoplay muted loop poster="">
+      <source src="./gravity-tag.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="hero-video-caption">Gravity Tag trailer.</div>
+  </div>
+</div>
+
+<!-- ── Body ── -->
+<div class="body-wrap">
+
+  <article class="main-col">
+
+    <!-- About -->
+    <div class="section-title">About the Game</div>
+    <p class="body-text">
+      Gravity Tag is a fast-paced competitive 2D platformer built around an original dynamic
+      perspective system. Matches consist of chases where one player pursues the other, and the
+      twist is that the game world constantly shifts between a side-scrolling platformer view and
+      a top-down view — forcing both players to continuously adapt their movement and strategies.
+    </p>
+    <p class="body-text">
+      The game draws comparisons to Speedrunners, but carves its own identity
+      through the gravity mechanic and varied movement skills assigned to each unique character. Mastering the game means
+      developing character knowledge, level awareness, and the ability to read your opponent's
+      perspective as it alternates mid-chase.
+    </p>
+
+    <div class="pull-quote">
+      <p>"Players must constantly adapt to their situation and use their strategic thinking to outwit their opponent."</p>
+    </div>
+
+    <!-- Screenshots — replace with your actual files -->
+    <div class="section-title">Screenshots</div>
+    <div class="screenshot-grid">
+      <a href="./gravity-tag1.jpg" target="_blank">
+        <img src="./gravity-tag1.jpg" alt="Screenshot 1" onerror="this.parentElement.style.background='#3c3836'; this.style.display='none'" />
+      </a>
+      <a href="./gravity-tag2.png" target="_blank">
+        <img src="./gravity-tag2.png" alt="Screenshot 2" onerror="this.parentElement.style.background='#3c3836'; this.style.display='none'" />
+      </a>
+      <a href="./gravity-tag3.jpg" target="_blank">
+        <img src="./gravity-tag3.jpg" alt="Screenshot 3" onerror="this.parentElement.style.background='#3c3836'; this.style.display='none'" />
+      </a>
+      <a href="./gravity-tag4.jpg" target="_blank">
+        <img src="./gravity-tag4.jpg" alt="Screenshot 4" onerror="this.parentElement.style.background='#3c3836'; this.style.display='none'" />
+      </a>
+      <a href="./gravity-tag5.jpg" target="_blank">
+        <img src="./gravity-tag5.jpg" alt="Screenshot 5" onerror="this.parentElement.style.background='#3c3836'; this.style.display='none'" />
+      </a>
+      <a href="./gravity-tag6.jpg" target="_blank">
+        <img src="./gravity-tag6.jpg" alt="Screenshot 6" onerror="this.parentElement.style.background='#3c3836'; this.style.display='none'" />
+      </a>
+    </div>
+
+    <hr class="section-rule" />
+
+    <!-- Gameplay -->
+    <div class="section-title">Gameplay &amp; Systems</div>
+    <p class="body-text">
+      Each round of a match is structured as a chase — one player is the tagger, one is the runner. The gravity
+      system periodically shifts the game's perspective between a standard platformer view and a
+      top-down overhead view, changing which axes and obstacles are relevant at any moment.
+      Characters each have distinct move sets, and the levels are designed around the perspective shifts,
+      rewarding players who can plan routes that work across both views.
+    </p>
+
+    <ul class="feature-list">
+      <li>Dynamic platformer ↔ top-down perspective shifts</li>
+      <li>Asymmetric tagger / runner chase structure</li>
+      <li>Distinct playable characters with unique abilities</li>
+      <li>Multiple levels designed around dual-view navigation</li>
+      <li>Online multiplayer via rollback netcode</li>
+      <li>High skill ceiling with tactical depth</li>
+    </ul>
+
+    <hr class="section-rule" />
+
+    <!-- My Contributions -->
+    <div class="section-title">My Contributions</div>
+    <div class="contributions-box">
+      <p class="body-text">
+        As one of two programmers on the project, I owned two major technical pillars:
+        the online multiplayer infrastructure and GPU-side performance.
+      </p>
+      <ul class="contrib-list">
+        <li>Designed and implemented rollback netcode from scratch using the Steam API for packet transport and a Quake III-style UDP message system.</li>
+        <li>Optimised the GPU side of the renderer — audited and simplified shaders across the game.</li>
+        <li>Built a baked shadows system to reduce real-time shadow computation costs.</li>
+        <li>Tracked down and fixed memory leaks.</li>
+        <li>Reviewed and reclassified objects to use simple vs. complex shaders appropriately, improving frame budget.</li>
+      </ul>
+    </div>
+
+    <hr class="section-rule" />
+
+    <!-- Credits -->
+    <div class="section-title">Credits</div>
+    <table class="credits-table">
+      <tr>
+        <td><a class="you" href="https://www.linkedin.com/in/miko%C5%82aj-przybylski-5b8865206/" target="_blank">Mikołaj Przybylski</a></td>
+        <td>Programming</td>
+      </tr>
+      <tr>
+        <td><a href="https://github.com/MiloszKawczynski" target="_blank">Miłosz Kawczyński</a></td>
+        <td>Design &amp; Programming</td>
+      </tr>
+      <tr>
+        <td><a href="https://adjp.pl/" target="_blank">Julia Pietrzykowska</a></td>
+        <td>2D Art &amp; UI/UX Design</td>
+      </tr>
+      <tr>
+        <td>Marta Świderek</td>
+        <td>2D Art &amp; Character Design</td>
+      </tr>
+      <tr>
+        <td>Weronika Lilia Sztobryn</td>
+        <td>2D Art</td>
+      </tr>
+      <tr>
+        <td><a href="https://www.linkedin.com/in/julian-rakowski/" target="_blank">Julian Rakowski</a></td>
+        <td>Narrative Design &amp; Translation</td>
+      </tr>
+      <tr>
+        <td><a href="https://soundcloud.com/michal_swistak" target="_blank">Michał Świstak</a></td>
+        <td>Music &amp; Sound Design</td>
+      </tr>
+      <tr>
+        <td>Robert Kotliński</td>
+        <td>Marketing &amp; Community Management</td>
+      </tr>
+    </table>
+
+  </article>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Community</div>
+      <div class="sidebar-links">
+        <a class="sidebar-link" href="https://discord.gg/jkyzsvQ69u" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.033.055a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+          <span class="sidebar-link-label">Discord Server</span>
+          <span class="sidebar-link-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Awards</div>
+      <div class="award-item">
+        <span class="award-icon">🏆</span>
+        <div class="award-text">
+          <strong>ZTGK 2025</strong>
+          1st Place — Game Design<br/>Łódź, Poland
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Project Info</div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">Genre</span>
+          <span class="info-row-value">Competitive Platformer</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Team</span>
+          <span class="info-row-value">8 people</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Programmers</span>
+          <span class="info-row-value">2</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Status</span>
+          <span class="info-row-value">In Development</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Multiplayer</span>
+          <span class="info-row-value">Online (rollback)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Input</span>
+          <span class="info-row-value">Keyboard + Mouse, Controller</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Tech</div>
+      <div class="tag-cloud">
+        <span class="tag tag-engine">gamemaker</span>
+        <span class="tag tag-lang">gml</span>
+        <span class="tag tag-accent">rollback netcode</span>
+        <span class="tag tag-misc">steam api</span>
+        <span class="tag tag-misc">udp</span>
+        <span class="tag tag-misc">tcp</span>
+      </div>
+    </div>
+
+  </aside>
+
+</div>
+
+<footer class="footer">
+  <a href="../index.html">← Back to Portfolio</a>
+  <span class="footer-sep">&middot;</span>
+  <a href="https://github.com/0GreenClover0" target="_blank">github.com/0GreenClover0</a>
+  <span class="footer-sep">&middot;</span>
+  <a href="https://discord.gg/jkyzsvQ69u" target="_blank">Discord</a>
+  <span class="footer-sep">&middot;</span>
+  <a href="mailto:m.przybylski.inbox@gmail.com">m.przybylski.inbox@gmail.com</a>
+</footer>
+
+</body>
+</html>
