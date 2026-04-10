@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jakt — Mikołaj Przybylski</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:        #282828;
+      --bg1:       #3c3836;
+      --bg2:       #504945;
+      --bg3:       #665c54;
+      --bg4:       #7c6f64;
+      --fg:        #ebdbb2;
+      --fg2:       #d5c4a1;
+      --fg3:       #bdae93;
+      --fg4:       #a89984;
+      --red:       #fb4934;
+      --green:     #b8bb26;
+      --yellow:    #fabd2f;
+      --blue:      #83a598;
+      --aqua:      #8ec07c;
+      --orange:    #fe8019;
+      --gray:      #928374;
+      --purple:    #d3869b;
+      --accent:    #ea6962;
+      --accent-bg: rgba(234,105,98,0.07);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg2);
+      font-family: 'Lora', Georgia, serif;
+      font-size: 16px;
+      line-height: 1.75;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Top bar ── */
+    .topbar {
+      border-bottom: 1px solid var(--bg2);
+      padding: 12px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--fg4);
+      background: var(--bg1);
+    }
+    .topbar a { color: var(--fg4); transition: color 0.15s; }
+    .topbar a:hover { color: var(--accent); }
+    .back-link::before { content: '← '; }
+    .topbar-right { display: flex; gap: 20px; }
+    .topbar-right a { display: flex; align-items: center; gap: 6px; }
+    .topbar-right svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* ── Masthead ── */
+    .masthead { border-bottom: 3px double var(--bg3); padding: 0 40px; }
+    .masthead-site {
+      text-align: center;
+      padding: 10px 0 8px;
+      border-bottom: 1px solid var(--bg2);
+      font-family: 'Playfair Display', serif;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--fg4);
+    }
+    .masthead-site a { transition: color 0.15s; }
+    .masthead-site a:hover { color: var(--accent); }
+
+    /* ── Headline ── */
+    .headline-section { padding: 36px 40px 0; max-width: 1160px; margin: 0 auto; }
+    .headline-kicker {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .headline-kicker::after { content: ''; flex: 1; height: 1px; background: var(--bg2); }
+
+    .headline-columns {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: start;
+      margin-bottom: 24px;
+    }
+
+    .headline-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(52px, 7vw, 84px);
+      font-weight: 900;
+      color: var(--fg);
+      line-height: 0.95;
+      letter-spacing: 0.01em;
+      margin-bottom: 20px;
+    }
+    .headline-deck {
+      font-family: 'Lora', serif;
+      font-size: 19px;
+      font-style: italic;
+      color: var(--fg3);
+      line-height: 1.65;
+      border-left: 3px solid var(--accent);
+      padding-left: 20px;
+    }
+
+    /* Stats ribbon */
+    .stats-ribbon { display: flex; flex-wrap: wrap; border-top: 1px solid var(--bg2); border-bottom: 1px solid var(--bg2); margin-top: 24px; }
+    .stat-item { padding: 12px 24px 12px 0; margin-right: 24px; border-right: 1px solid var(--bg2); font-family: 'IBM Plex Mono', monospace; }
+    .stat-item:last-child { border-right: none; }
+    .stat-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); display: block; margin-bottom: 2px; }
+    .stat-value { font-size: 14px; color: var(--fg2); }
+
+    /* ── Body layout ── */
+    .body-wrap {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 40px 80px;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 0;
+      align-items: start;
+    }
+    .main-col { border-right: 1px solid var(--bg2); padding-right: 40px; padding-top: 36px; }
+
+    .section-rule { border: none; border-top: 1px solid var(--bg2); margin: 32px 0 24px; }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--fg4);
+      margin-bottom: 16px;
+    }
+    .body-text { font-size: 16px; color: var(--fg3); line-height: 1.8; margin-bottom: 16px; }
+    .body-text:last-child { margin-bottom: 0; }
+    .body-text a { color: var(--fg); transition: color 0.15s; }
+    .body-text a:hover { color: var(--accent); }
+
+    /* Pull quote */
+    .pull-quote { border-top: 2px solid var(--fg4); border-bottom: 1px solid var(--bg2); padding: 20px 0 16px; margin: 32px 0; }
+    .pull-quote p { font-family: 'Playfair Display', serif; font-size: 22px; font-style: italic; color: var(--fg); line-height: 1.45; }
+
+    /* Code sample */
+    .code-block {
+      background: var(--bg1);
+      border: 1px solid var(--bg2);
+      border-left: 3px solid var(--accent);
+      padding: 18px 20px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--fg3);
+      line-height: 1.7;
+      overflow-x: auto;
+      margin: 20px 0;
+      white-space: pre;
+    }
+    .code-block .kw  { color: var(--purple); }
+    .code-block .fn  { color: var(--yellow); }
+    .code-block .ty  { color: var(--aqua); }
+    .code-block .cm  { color: var(--gray); font-style: italic; }
+    .code-block .st  { color: var(--green); }
+    .code-block .nm  { color: var(--blue); }
+    .code-block .op  { color: var(--orange); }
+
+    /* Commit breakdown */
+    .commit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 16px 0 24px;
+    }
+    .commit-bucket {
+      background: var(--bg1);
+      border: 1px solid var(--bg2);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      cursor: default;
+      transition: border-color 0.15s;
+    }
+    .commit-bucket:hover { border-color: var(--bg4); }
+    .bucket-name {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--fg3);
+      letter-spacing: 0.06em;
+    }
+    .bucket-bar-wrap {
+      flex: 1;
+      height: 4px;
+      background: var(--bg2);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .bucket-bar {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 0.4s ease;
+    }
+    .bucket-count {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent);
+      min-width: 28px;
+      text-align: right;
+    }
+
+    /* Commit list (collapsible per area) */
+    details.commit-area {
+      border: 1px solid var(--bg2);
+      margin-bottom: 4px;
+    }
+    details.commit-area summary {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--fg3);
+      padding: 10px 14px;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg1);
+      user-select: none;
+      transition: background 0.15s;
+    }
+    details.commit-area summary::-webkit-details-marker { display: none; }
+    details.commit-area summary:hover { background: var(--bg2); }
+    details.commit-area[open] summary { border-bottom: 1px solid var(--bg2); color: var(--accent); }
+    .summary-right { display: flex; align-items: center; gap: 10px; color: var(--gray); font-size: 11px; }
+    .summary-toggle { font-size: 11px; color: var(--bg4); }
+    details.commit-area[open] .summary-toggle::before { content: '−'; }
+    details.commit-area:not([open]) .summary-toggle::before { content: '+'; }
+
+    .commit-list-inner {
+      padding: 8px 0;
+      background: var(--bg);
+    }
+    .commit-row {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--fg4);
+      padding: 5px 14px 5px 28px;
+      line-height: 1.5;
+      position: relative;
+      border-bottom: 1px solid var(--bg1);
+    }
+    .commit-row:last-child { border-bottom: none; }
+    .commit-row::before {
+      content: '·';
+      position: absolute;
+      left: 14px;
+      color: var(--bg3);
+    }
+    .commit-message { color: var(--fg3); }
+
+    /* Contributions box */
+    .contributions-box {
+      background: var(--bg1);
+      border: 1px solid var(--bg2);
+      border-left: 4px solid var(--accent);
+      padding: 24px 28px;
+      margin-top: 12px;
+    }
+    .contributions-box .body-text { color: var(--fg3); }
+    .contrib-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+    .contrib-list li {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--fg3);
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.6;
+    }
+    .contrib-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+
+    /* Raytracer callout */
+    .project-callout {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 20px 22px;
+      background: var(--bg1);
+      border: 1px solid var(--bg2);
+      margin-top: 12px;
+      transition: border-color 0.15s;
+      text-decoration: none;
+    }
+    .project-callout:hover { border-color: var(--accent); }
+    .callout-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--accent-bg);
+      border: 1px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 20px;
+    }
+    .callout-body { flex: 1; }
+    .callout-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--fg);
+      margin-bottom: 4px;
+    }
+    .callout-desc { font-size: 13px; color: var(--fg4); font-style: italic; line-height: 1.55; margin-bottom: 8px; }
+    .callout-link {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      transition: color 0.15s;
+    }
+    .project-callout:hover .callout-link { color: var(--accent); }
+
+    /* ── Sidebar ── */
+    .sidebar { padding-left: 32px; padding-top: 36px; }
+    .sidebar-block { border-bottom: 1px solid var(--bg2); padding-bottom: 24px; margin-bottom: 24px; }
+    .sidebar-block:last-child { border-bottom: none; }
+    .sidebar-heading {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--bg2);
+    }
+    .sidebar-links { display: flex; flex-direction: column; gap: 8px; }
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--fg3);
+      padding: 8px 12px;
+      border: 1px solid var(--bg2);
+      background: var(--bg1);
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+    .sidebar-link:hover { border-color: var(--accent); color: var(--accent); background: var(--bg2); }
+    .sidebar-link svg { width: 15px; height: 15px; fill: currentColor; flex-shrink: 0; }
+    .sidebar-link-label { flex: 1; }
+    .sidebar-link-arrow { color: var(--bg3); transition: color 0.15s; }
+    .sidebar-link:hover .sidebar-link-arrow { color: var(--accent); }
+
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 5px; }
+    .tag { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; padding: 2px 8px; border: 1px solid; }
+    .tag-lang   { color: var(--blue);   border-color: var(--blue);   background: rgba(131,165,152,0.08); }
+    .tag-misc   { color: var(--orange); border-color: var(--orange); background: rgba(254,128,25,0.08); }
+    .tag-accent { color: var(--accent); border-color: var(--accent); background: var(--accent-bg); }
+
+    .info-rows { display: flex; flex-direction: column; }
+    .info-row { display: flex; justify-content: space-between; align-items: baseline; padding: 7px 0; border-bottom: 1px solid var(--bg2); gap: 12px; }
+    .info-row:last-child { border-bottom: none; }
+    .info-row-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); flex-shrink: 0; }
+    .info-row-value { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--fg3); text-align: right; }
+
+    /* Commit stat (big number) */
+    .commit-stat {
+      text-align: center;
+      padding: 12px 0 4px;
+    }
+    .commit-stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 56px;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .commit-stat-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-top: 4px;
+    }
+
+    /* ── Footer ── */
+    .footer { border-top: 3px double var(--bg3); padding: 26px 40px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--gray); letter-spacing: 0.08em; }
+    .footer a { color: var(--fg4); transition: color 0.15s; }
+    .footer a:hover { color: var(--accent); }
+    .footer-sep { margin: 0 12px; color: var(--bg3); }
+
+    @media (max-width: 900px) {
+      .body-wrap { grid-template-columns: 1fr; }
+      .main-col { border-right: none; padding-right: 0; }
+      .sidebar { padding-left: 0; padding-top: 0; border-top: 1px solid var(--bg2); }
+      .headline-section, .body-wrap, .topbar, .masthead, .footer { padding-left: 20px; padding-right: 20px; }
+      .headline-columns { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .commit-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Top bar ── -->
+<div class="topbar">
+  <a href="../index.html" class="back-link">Portfolio</a>
+  <div class="topbar-right">
+    <a href="https://github.com/SerenityOS/jakt" target="_blank">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.021C22 6.484 17.522 2 12 2z"/></svg>
+      GitHub
+    </a>
+  </div>
+</div>
+
+<!-- ── Masthead ── -->
+<header class="masthead">
+  <div class="masthead-site">
+    <a href="../index.html">Mikołaj Przybylski &nbsp;·&nbsp; Portfolio</a>
+  </div>
+</header>
+
+<!-- ── Headline ── -->
+<div class="headline-section">
+  <div class="headline-kicker">Open Source · Programming Language · SerenityOS</div>
+
+  <div class="headline-columns">
+    <div>
+      <h1 class="headline-title">Jakt</h1>
+      <p class="headline-deck">
+        A memory-safe systems programming language that transpiles to C++.
+        Inspired by Swift — including reference counting — and developed as part of the SerenityOS project.
+      </p>
+    </div>
+  </div>
+
+  <div class="stats-ribbon">
+    <div class="stat-item">
+      <span class="stat-label">Type</span>
+      <span class="stat-value">Open Source Contribution</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Organisation</span>
+      <span class="stat-value">SerenityOS</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">My Commits</span>
+      <span class="stat-value">100</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Primary Focus</span>
+      <span class="stat-value">Typechecker</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Language</span>
+      <span class="stat-value">Jakt (transpiles to C++)</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── Body ── -->
+<div class="body-wrap">
+  <article class="main-col">
+
+    <!-- About -->
+    <div class="section-title">About Jakt</div>
+    <p class="body-text">
+      Jakt is an open-source, memory-safe programming language that compiles by transpiling to C++.
+      It was created within the SerenityOS project — a from-scratch Unix-like operating system —
+      and takes inspiration from Swift, including automatic reference counting for memory safety
+      without a garbage collector.
+    </p>
+    <p class="body-text">
+      It borrows elements from other languages like Rust, C# and C++, and combines
+      them in a very elegant final form (in my opinion :).
+    </p>
+    <p class="body-text">
+      The language is self-hosted: the Jakt compiler itself is written in Jakt.
+      Features include a rich type system with optionals, generics, enums with associated values,
+      pattern matching, try-catch error propagation, closures, and traits.
+    </p>
+
+    <div class="pull-quote">
+      <p>"Memory-safe, expressive, and self-hosted — built openly as part of SerenityOS."</p>
+    </div>
+
+    <!-- Code sample -->
+    <div class="section-title">A taste of Jakt</div>
+    <div class="code-block"><span class="cm">// Jakt — inspired by C++, Swift, Rust and C#, transpiles to C++</span>
+<span class="kw">fn</span> <span class="fn">greet</span>(name: <span class="ty">String</span>) <span class="op">-></span> <span class="ty">bool</span> {
+    println(<span class="st">"Hello, </span><span class="nm">{}</span><span class="st">!"</span>, name)
+    <span class="kw">return true</span>
+}
+
+<span class="kw">enum</span> <span class="ty">Shape</span> {
+    Circle(radius: <span class="ty">f64</span>)
+    Rectangle(width: <span class="ty">f64</span>, height: <span class="ty">f64</span>)
+
+    <span class="kw">fn</span> <span class="fn">area</span>(<span class="kw">this</span>) <span class="op">-></span> <span class="ty">f64</span> {
+        <span class="kw">return match this</span> {
+            Circle(radius) <span class="op">=></span> <span class="nm">3.14159</span><span class="ty">f64</span> <span class="op">*</span> radius <span class="op">*</span> radius
+            Rectangle(width, height) <span class="op">=></span> width <span class="op">*</span> height
+        }
+    }
+}
+
+<span class="kw">fn</span> <span class="fn">main</span>() <span class="op">throws</span> {
+    <span class="cm">// 'result' is immutable</span>
+    <span class="kw">let</span> result <span class="op">=</span> greet(name: <span class="st">"Reader"</span>)
+
+    <span class="cm">// 'shape' is mutable</span>
+    <span class="kw">mut</span> shape <span class="op">=</span> <span class="ty">Shape</span>::Circle(radius: <span class="nm">5.0</span>)
+    println(<span class="st">"Area: {}"</span>, shape.<span class="fn">area</span>())
+}</div>
+
+<p class="body-text">
+  You can try the language yourself on <a href="https://apps.cxbyte.me/jakt/s/bU32dF28" target="_blank">Jakt Playground</a>!
+</p>
+
+    <hr class="section-rule" />
+
+    <!-- Contributions -->
+    <div class="section-title">My Contributions</div>
+    <div class="contributions-box">
+      <p class="body-text">
+        I contributed 100 commits across the compiler pipeline, fixing bugs and adding features
+        primarily in the typechecker — the largest and most complex part of the compiler.
+        Participating in this project meaningfully sharpened my Git and open-source collaboration skills.
+      </p>
+      <ul class="contrib-list">
+        <li>Typechecker: control flow analysis improvements — <code>if</code>, <code>while</code>, <code>match</code>, and <code>try-catch</code> blocks resolve control flow correctly in all cases.</li>
+        <li>Typechecker: type inference for match expressions and blocks — infers the most compatible common type across arms.</li>
+        <li>Typechecker: enforcement of subclassing compatibility — subclass instances can be assigned to base-class-typed variables.</li>
+        <li>Typechecker: type-hint propagation into array, set, and dictionary literals for better inference.</li>
+        <li>Typechecker: disallowed invalid constructs — <code>break</code>/<code>continue</code> outside loops, <code>None</code> to non-optional, empty enums, and more.</li>
+        <li>Typechecker: argument label and function return-type inference clean-up.</li>
+        <li>Codegen: fixed dereference operators for generic classes and methods; implicit returns for void-returning lambdas.</li>
+        <li>Parser: fixed infinite loops on malformed input; improved span accuracy; allowed ergonomic newline placement.</li>
+        <li>Error reporting: improved source-span display, including first-line and empty-line edge cases.</li>
+        <li>VS Code extension: added syntax highlighting for references, <code>mut</code>, <code>is</code>, <code>override</code>, <code>virtual</code>, <code>import</code>, floats, and more.</li>
+      </ul>
+    </div>
+
+    <hr class="section-rule" />
+
+    <!-- Commit breakdown -->
+    <div class="section-title">Commit Breakdown</div>
+    <p class="body-text">All 100 commits, grouped by compiler component.</p>
+
+    <div class="commit-grid">
+      <div class="commit-bucket">
+        <span class="bucket-name">typechecker</span>
+        <div class="bucket-bar-wrap"><div class="bucket-bar" style="width:100%"></div></div>
+        <span class="bucket-count">66</span>
+      </div>
+      <div class="commit-bucket">
+        <span class="bucket-name">editors / vscode</span>
+        <div class="bucket-bar-wrap"><div class="bucket-bar" style="width:14%"></div></div>
+        <span class="bucket-count">9</span>
+      </div>
+      <div class="commit-bucket">
+        <span class="bucket-name">parser</span>
+        <div class="bucket-bar-wrap"><div class="bucket-bar" style="width:12%"></div></div>
+        <span class="bucket-count">8</span>
+      </div>
+      <div class="commit-bucket">
+        <span class="bucket-name">codegen</span>
+        <div class="bucket-bar-wrap"><div class="bucket-bar" style="width:11%"></div></div>
+        <span class="bucket-count">7</span>
+      </div>
+      <div class="commit-bucket">
+        <span class="bucket-name">error reporting</span>
+        <div class="bucket-bar-wrap"><div class="bucket-bar" style="width:6%"></div></div>
+        <span class="bucket-count">4</span>
+      </div>
+      <div class="commit-bucket">
+        <span class="bucket-name">types / other</span>
+        <div class="bucket-bar-wrap"><div class="bucket-bar" style="width:5%"></div></div>
+        <span class="bucket-count">6</span>
+      </div>
+    </div>
+
+    <hr class="section-rule" />
+
+    <!-- Made with Jakt -->
+    <div class="section-title">Made with Jakt</div>
+    <p class="body-text">To get a feel for the language, I built a full implementation of the classic <em>Ray Tracing in One Weekend</em> book in Jakt.</p>
+    <a class="project-callout" href="https://github.com/0GreenClover0/raytracer-jakt" target="_blank">
+      <div class="callout-icon">▲</div>
+      <div class="callout-body">
+        <div class="callout-title">raytracer-jakt</div>
+        <div class="callout-desc">An implementation of <em>Ray Tracing in One Weekend</em> written entirely in Jakt. Spheres, materials, reflections, and path tracing — built to exercise the language's type system and memory model.</div>
+        <span class="callout-link">github.com/0GreenClover0/raytracer-jakt →</span>
+      </div>
+    </a>
+
+  </article>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Links</div>
+      <div class="sidebar-links">
+        <a class="sidebar-link" href="https://github.com/SerenityOS/jakt" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.021C22 6.484 17.522 2 12 2z"/></svg>
+          <span class="sidebar-link-label">SerenityOS/jakt</span>
+          <span class="sidebar-link-arrow">→</span>
+        </a>
+        <a class="sidebar-link" href="https://github.com/0GreenClover0/raytracer-jakt" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.021C22 6.484 17.522 2 12 2z"/></svg>
+          <span class="sidebar-link-label">raytracer-jakt</span>
+          <span class="sidebar-link-arrow">→</span>
+        </a>
+        <a class="sidebar-link" href="https://github.com/SerenityOS/Jakt/commits?author=0GreenClover0" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.021C22 6.484 17.522 2 12 2z"/></svg>
+          <span class="sidebar-link-label">My commits</span>
+          <span class="sidebar-link-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">At a Glance</div>
+      <div class="commit-stat">
+        <div class="commit-stat-number">100</div>
+        <div class="commit-stat-label">Merged Commits</div>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Project Info</div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">Type</span>
+          <span class="info-row-value">Open Source</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Organisation</span>
+          <span class="info-row-value">SerenityOS</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Outputs to</span>
+          <span class="info-row-value">C++</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Memory</span>
+          <span class="info-row-value">ARC (Swift-style)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">License</span>
+          <span class="info-row-value">BSD-2-Clause</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Tech</div>
+      <div class="tag-cloud">
+        <span class="tag tag-lang">jakt</span>
+        <span class="tag tag-lang">c++</span>
+        <span class="tag tag-accent">typechecker</span>
+        <span class="tag tag-accent">codegen</span>
+        <span class="tag tag-misc">ARC</span>
+        <span class="tag tag-misc">transpiler</span>
+        <span class="tag tag-misc">self-hosted</span>
+      </div>
+    </div>
+
+  </aside>
+</div>
+
+<footer class="footer">
+  <a href="../index.html">← Back to Portfolio</a>
+  <span class="footer-sep">&middot;</span>
+  <a href="https://github.com/0GreenClover0" target="_blank">github.com/0GreenClover0</a>
+  <span class="footer-sep">&middot;</span>
+  <a href="https://github.com/SerenityOS/jakt" target="_blank">SerenityOS/jakt</a>
+  <span class="footer-sep">&middot;</span>
+  <a href="mailto:m.przybylski.inbox@gmail.com">m.przybylski.inbox@gmail.com</a>
+</footer>
+
+</body>
+</html>
