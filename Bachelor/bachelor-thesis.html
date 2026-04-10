@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bachelor's Thesis — Mikołaj Przybylski</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:        #282828;
+      --bg1:       #3c3836;
+      --bg2:       #504945;
+      --bg3:       #665c54;
+      --bg4:       #7c6f64;
+      --fg:        #ebdbb2;
+      --fg2:       #d5c4a1;
+      --fg3:       #bdae93;
+      --fg4:       #a89984;
+      --red:       #fb4934;
+      --green:     #b8bb26;
+      --yellow:    #fabd2f;
+      --blue:      #83a598;
+      --aqua:      #8ec07c;
+      --orange:    #fe8019;
+      --gray:      #928374;
+      --purple:    #d3869b;
+      --accent:    #9bbfd4;
+      --accent-bg: rgba(155,191,212,0.07);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--fg2); font-family: 'Lora', Georgia, serif; font-size: 16px; line-height: 1.75; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Top bar ── */
+    .topbar { border-bottom: 1px solid var(--bg2); padding: 12px 40px; display: flex; align-items: center; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--fg4); background: var(--bg1); }
+    .topbar a { color: var(--fg4); transition: color 0.15s; }
+    .topbar a:hover { color: var(--accent); }
+    .back-link::before { content: '← '; }
+    .topbar-right { display: flex; gap: 20px; }
+    .topbar-right a { display: flex; align-items: center; gap: 6px; }
+    .topbar-right svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* ── Masthead ── */
+    .masthead { border-bottom: 3px double var(--bg3); padding: 0 40px; }
+    .masthead-site { text-align: center; padding: 10px 0 8px; border-bottom: 1px solid var(--bg2); font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg4); }
+    .masthead-site a { transition: color 0.15s; }
+    .masthead-site a:hover { color: var(--accent); }
+
+    /* ── Headline ── */
+    .headline-section { padding: 36px 40px 0; max-width: 1160px; margin: 0 auto; }
+    .headline-kicker { font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
+    .headline-kicker::after { content: ''; flex: 1; height: 1px; background: var(--bg2); }
+
+    .headline-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(30px, 4vw, 54px);
+      font-weight: 900;
+      color: var(--fg);
+      line-height: 1.1;
+      letter-spacing: 0.01em;
+      margin-bottom: 20px;
+      max-width: 860px;
+    }
+    .headline-sub {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 20px;
+    }
+
+    /* Stats ribbon */
+    .stats-ribbon { display: flex; flex-wrap: wrap; border-top: 1px solid var(--bg2); border-bottom: 1px solid var(--bg2); margin-top: 24px; }
+    .stat-item { padding: 12px 24px 12px 0; margin-right: 24px; border-right: 1px solid var(--bg2); font-family: 'IBM Plex Mono', monospace; }
+    .stat-item:last-child { border-right: none; }
+    .stat-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); display: block; margin-bottom: 2px; }
+    .stat-value { font-size: 14px; color: var(--fg2); }
+
+    /* ── Body layout ── */
+    .body-wrap { max-width: 1160px; margin: 0 auto; padding: 0 40px 80px; display: grid; grid-template-columns: 1fr 300px; gap: 0; align-items: start; }
+    .main-col { border-right: 1px solid var(--bg2); padding-right: 40px; padding-top: 36px; }
+
+    .section-rule { border: none; border-top: 1px solid var(--bg2); margin: 32px 0 24px; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 400; letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg4); margin-bottom: 16px; }
+    .body-text { font-size: 16px; color: var(--fg3); line-height: 1.8; margin-bottom: 16px; }
+    .body-text:last-child { margin-bottom: 0; }
+
+    /* Abstract block */
+    .abstract-block {
+      background: var(--bg1);
+      border: 1px solid var(--bg2);
+      border-left: 4px solid var(--accent);
+      padding: 24px 28px;
+      margin-bottom: 0;
+    }
+    .abstract-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gray); margin-bottom: 12px; }
+    .abstract-text { font-size: 15px; color: var(--fg3); line-height: 1.85; font-style: italic; }
+
+    /* Comparison figure */
+    .comparison-figure { margin: 24px 0; border: 1px solid var(--bg2); }
+    .comparison-figure img { width: 100%; display: block; }
+    .comparison-caption { background: var(--bg1); border-top: 1px solid var(--bg2); padding: 10px 14px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--gray); font-style: italic; line-height: 1.5; }
+    .comparison-caption strong { color: var(--fg3); font-style: normal; }
+
+    /* 2×2 grid labels overlay explanation */
+    .grid-legend {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      margin-top: 2px;
+      border: 1px solid var(--bg2);
+      border-top: none;
+    }
+    .grid-legend-cell {
+      background: var(--bg1);
+      padding: 7px 12px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--fg4);
+      text-align: center;
+      border: 1px solid var(--bg2);
+    }
+    .grid-legend-cell strong { color: var(--accent); font-style: normal; }
+
+    /* Chart figure */
+    .chart-figure { margin: 24px 0; border: 1px solid var(--bg2); background: var(--bg1); }
+    .chart-figure img { width: 100%; display: block; }
+    .chart-caption { border-top: 1px solid var(--bg2); padding: 10px 14px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--gray); font-style: italic; line-height: 1.5; }
+    .chart-caption strong { color: var(--fg3); font-style: normal; }
+
+    /* Algorithm notation table */
+    .algo-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 12px 0 20px; }
+    .algo-table tr { border-bottom: 1px solid var(--bg2); }
+    .algo-table tr:last-child { border-bottom: none; }
+    .algo-table td { padding: 8px 0; vertical-align: top; }
+    .algo-table td:first-child { font-family: 'IBM Plex Mono', monospace; font-weight: 500; color: var(--accent); width: 36px; font-size: 15px; }
+    .algo-table td:last-child { font-size: 14px; color: var(--fg3); padding-left: 12px; }
+
+    /* Feature list */
+    .feature-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; margin-bottom: 16px; }
+    .feature-list li { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--fg3); padding-left: 14px; position: relative; }
+    .feature-list li::before { content: '·'; position: absolute; left: 0; color: var(--orange); }
+
+    /* Pull quote */
+    .pull-quote { border-top: 2px solid var(--fg4); border-bottom: 1px solid var(--bg2); padding: 20px 0 16px; margin: 32px 0; }
+    .pull-quote p { font-family: 'Playfair Display', serif; font-size: 20px; font-style: italic; color: var(--fg); line-height: 1.5; }
+
+    /* ── Sidebar ── */
+    .sidebar { padding-left: 32px; padding-top: 36px; }
+    .sidebar-block { border-bottom: 1px solid var(--bg2); padding-bottom: 24px; margin-bottom: 24px; }
+    .sidebar-block:last-child { border-bottom: none; }
+    .sidebar-heading { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gray); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--bg2); }
+
+    .sidebar-links { display: flex; flex-direction: column; gap: 8px; }
+    .sidebar-link { display: flex; align-items: center; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--fg3); padding: 8px 12px; border: 1px solid var(--bg2); background: var(--bg1); transition: border-color 0.15s, color 0.15s, background 0.15s; }
+    .sidebar-link:hover { border-color: var(--accent); color: var(--accent); background: var(--bg2); }
+    .sidebar-link svg { width: 15px; height: 15px; fill: currentColor; flex-shrink: 0; }
+    .sidebar-link-label { flex: 1; }
+    .sidebar-link-arrow { color: var(--bg3); transition: color 0.15s; }
+    .sidebar-link:hover .sidebar-link-arrow { color: var(--accent); }
+
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 5px; }
+    .tag { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; padding: 2px 8px; border: 1px solid; }
+    .tag-lang   { color: var(--blue);   border-color: var(--blue);   background: rgba(131,165,152,0.08); }
+    .tag-api    { color: var(--red);    border-color: var(--red);    background: rgba(251,73,52,0.08); }
+    .tag-misc   { color: var(--orange); border-color: var(--orange); background: rgba(254,128,25,0.08); }
+    .tag-accent { color: var(--accent); border-color: var(--accent); background: var(--accent-bg); }
+
+    .info-rows { display: flex; flex-direction: column; }
+    .info-row { display: flex; justify-content: space-between; align-items: baseline; padding: 7px 0; border-bottom: 1px solid var(--bg2); gap: 12px; }
+    .info-row:last-child { border-bottom: none; }
+    .info-row-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); flex-shrink: 0; }
+    .info-row-value { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--fg3); text-align: right; }
+
+    /* Result callout */
+    .result-callout { background: var(--bg1); border: 1px solid var(--bg2); border-left: 4px solid var(--accent); padding: 16px 20px; margin: 20px 0; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--fg3); line-height: 1.6; }
+    .result-callout strong { color: var(--accent); }
+
+    /* ── Footer ── */
+    .footer { border-top: 3px double var(--bg3); padding: 26px 40px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--gray); letter-spacing: 0.08em; }
+    .footer a { color: var(--fg4); transition: color 0.15s; }
+    .footer a:hover { color: var(--accent); }
+    .footer-sep { margin: 0 12px; color: var(--bg3); }
+
+    @media (max-width: 900px) {
+      .body-wrap { grid-template-columns: 1fr; }
+      .main-col { border-right: none; padding-right: 0; }
+      .sidebar { padding-left: 0; padding-top: 0; border-top: 1px solid var(--bg2); }
+      .headline-section, .body-wrap, .topbar, .masthead, .footer { padding-left: 20px; padding-right: 20px; }
+    }
+    @media (max-width: 600px) {
+      .feature-list { grid-template-columns: 1fr; }
+      .stats-ribbon { flex-direction: column; }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--bg2); padding: 10px 0; margin-right: 0; }
+      .grid-legend { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Top bar ── -->
+<div class="topbar">
+  <a href="../index.html" class="back-link">Portfolio</a>
+  <div class="topbar-right">
+    <a href="https://github.com/0GreenClover0/PathtracerRT" target="_blank">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.021C22 6.484 17.522 2 12 2z"/></svg>
+      Repository
+    </a>
+  </div>
+</div>
+
+<!-- ── Masthead ── -->
+<header class="masthead">
+  <div class="masthead-site">
+    <a href="../index.html">Mikołaj Przybylski &nbsp;·&nbsp; Portfolio</a>
+  </div>
+</header>
+
+<!-- ── Headline ── -->
+<div class="headline-section">
+  <div class="headline-kicker">Bachelor's Thesis &nbsp;·&nbsp; Real-Time Rendering &nbsp;·&nbsp; Lodz University of Technology</div>
+  <h1 class="headline-title">Application of the ReSTIR Algorithm in Real-Time Ray Tracing</h1>
+  <p class="headline-sub">Engineering Thesis &nbsp;·&nbsp; 2024 &nbsp;·&nbsp; DirectX 12 &nbsp;·&nbsp; DXR</p>
+
+  <div class="stats-ribbon">
+    <div class="stat-item">
+      <span class="stat-label">Type</span>
+      <span class="stat-value">Engineering Thesis</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">University</span>
+      <span class="stat-value">Lodz University of Technology</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Algorithm</span>
+      <span class="stat-value">ReSTIR DI</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Graphics API</span>
+      <span class="stat-value">DirectX 12 + DXR</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Year</span>
+      <span class="stat-value">2024</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── Body ── -->
+<div class="body-wrap">
+  <article class="main-col">
+
+    <!-- Abstract -->
+    <div class="section-title">Abstract</div>
+    <div class="abstract-block">
+      <div class="abstract-label">Abstract</div>
+      <p class="abstract-text">
+        Real-time ray tracing has gained significant attention in recent years, driven by the increasing
+        computational power of modern GPUs and the introduction of hardware-accelerated ray tracing in
+        DirectX Raytracing (DXR). Traditional ray tracing algorithms, while capable of producing highly
+        realistic images, suffer from high computational complexity, making them impractical for real-time
+        applications. To address this issue, advanced sampling and resampling techniques, such as the
+        ReSTIR (Reservoir-based Spatiotemporal Importance Resampling) algorithm, have been developed.
+        ReSTIR improves the efficiency of direct lighting calculations by reusing and resampling a set of
+        light samples across space and time, significantly reducing noise or improving performance without
+        sacrificing visual quality.
+      </p>
+      <br/>
+      <p class="abstract-text">
+        This thesis focuses on implementing and analysing the ReSTIR DI (Direct Illumination) algorithm
+        in a path tracer built using DirectX 12 and DXR, based on The Reference Path Tracer. Through a
+        series of tests and performance measurements, the results demonstrate that ReSTIR can
+        significantly enhance rendering efficiency by reducing variance in lighting calculations while
+        maintaining real-time frame rates. However, the algorithm also introduces systematic bias, which
+        requires additional expensive techniques to mitigate. The tests also show how the individual
+        components of the algorithm affect image quality and rendering times, and that the lack of
+        visibility reuse significantly reduces the gains from the other components.
+      </p>
+    </div>
+
+    <hr class="section-rule" />
+
+    <!-- Background -->
+    <div class="section-title">Background &amp; Motivation</div>
+    <p class="body-text">
+      Monte Carlo ray tracing produces physically correct images but requires many samples per pixel to
+      converge to a noise-free result — far too many for real-time applications. ReSTIR addresses this by
+      using weighted reservoir sampling (WRS) to draw from an importance-sampled distribution, then
+      reusing reservoirs from neighbouring pixels (spatial reuse) and from the previous frame (temporal
+      reuse). This amortises the sampling cost dramatically across the screen and over time.
+    </p>
+    <p class="body-text">
+      The thesis implements ReSTIR DI — the direct illumination variant — which focuses on sampling from
+      potentially millions of light sources. The implementation is built on top of The
+      Reference Path Tracer, a GPU-based DX12 application by NVIDIA from the Ray Tracing Gems 2 book, which serves as the integration
+      and evaluation baseline.
+    </p>
+
+    <div class="pull-quote">
+      <p>"ReSTIR reuses and resamples light samples across space and time, significantly reducing noise while maintaining real-time frame rates."</p>
+    </div>
+
+    <!-- Algorithm -->
+    <div class="section-title">Algorithm Components</div>
+    <p class="body-text">
+      The ReSTIR DI pipeline is composed of several independently toggleable passes. The thesis
+      systematically evaluates all combinations to isolate the contribution of each component:
+    </p>
+    <table class="algo-table">
+      <tr><td>RIS</td><td>Resampled Importance Sampling baseline — candidate generation only, no reuse. Acts as the reference.</td></tr>
+      <tr><td>P</td><td>Spatial reuse — reservoirs from the nearby pixels are combined with the current pixel's one.</td></tr>
+      <tr><td>C</td><td>Temporal reuse — reservoirs from the previous frame's reprojected position are combined with the current frame's candidates.</td></tr>
+      <tr><td>W</td><td>Visibility reuse — a shadow ray is cast for each light, before any reuse passes, so that unoccluded samples do not spread to nearby pixels. This assumes that occlusion of lights is somewhat local, which is not the case for shadow edges. Significantly reduces bias at the cost of extra ray budget.</td></tr>
+    </table>
+    <p class="body-text">
+      Thesis implements two variants of the ReSTIR DI algorithm: biased and unbiased.
+    </p>
+    <p class="body-text">
+      Moreover, seven configurations have been tested — RIS, P, P+W, C, C+W, P+C, P+C+W — which represent the Cartesian
+      product of toggling all components, allowing the relative impact of each to be measured in isolation.
+    </p>
+
+    <hr class="section-rule" />
+
+    <!-- Sponza comparison -->
+    <div class="section-title">Results — Sponza Scene</div>
+    <p class="body-text">
+      Sponza scene. 200 point lights placed randomly.
+      Each 2×2 panel below shows four configurations under identical lighting and camera conditions.
+    </p>
+    <div class="comparison-figure">
+      <img src="./sponza_razem.png" alt="Sponza scene comparison: RIS, ReSTIR biased, reference, ReSTIR unbiased" />
+      <div class="comparison-caption"><strong>Sponza atrium.</strong> Specular reflections on the curtains and the shadows behind them make this scene particularly sensitive to noise.</div>
+    </div>
+    <div class="grid-legend">
+      <div class="grid-legend-cell"><strong>Top-left:</strong> RIS (baseline, 1 spp)</div>
+      <div class="grid-legend-cell"><strong>Top-right:</strong> ReSTIR — biased</div>
+      <div class="grid-legend-cell"><strong>Bottom-left:</strong> Reference (high spp)</div>
+      <div class="grid-legend-cell"><strong>Bottom-right:</strong> ReSTIR — unbiased</div>
+    </div>
+
+    <hr class="section-rule" />
+
+    <!-- Bistro comparison -->
+    <div class="section-title">Results — Bistro Scene</div>
+    <p class="body-text">
+      Bistro scene. 600 point lights placed randomly.
+      Each 2×2 panel below shows four configurations under identical lighting and camera conditions.
+    </p>
+    <div class="comparison-figure">
+      <img src="./bistro_razem.png" alt="Bistro scene comparison: RIS, ReSTIR biased, reference, ReSTIR unbiased" />
+      <div class="comparison-caption"><strong>Bistro exterior.</strong> The dense lighting setup stresses the light sampling pipeline — the difference between RIS and ReSTIR is most visible in the cobblestones and building facades.</div>
+    </div>
+    <div class="grid-legend">
+      <div class="grid-legend-cell"><strong>Top-left:</strong> RIS (baseline, 1 spp)</div>
+      <div class="grid-legend-cell"><strong>Top-right:</strong> ReSTIR — biased</div>
+      <div class="grid-legend-cell"><strong>Bottom-left:</strong> Reference (high spp)</div>
+      <div class="grid-legend-cell"><strong>Bottom-right:</strong> ReSTIR — unbiased</div>
+    </div>
+
+    <hr class="section-rule" />
+
+    <!-- Chart -->
+    <div class="section-title">Quality Comparison — RMAE by Configuration</div>
+    <p class="body-text">
+      Relative Mean Absolute Error (RMAE) measures how far each configuration deviates from the
+      high-sample-count reference render. Lower RMAE means closer to ground truth. The chart covers
+      all seven tested configurations on the Sponza scene.
+    </p>
+    <div class="chart-figure">
+      <img src="./wyniki_wykresKomRMAE.png" alt="Bar chart: RMAE for RIS, P, P+W, C, C+W, P+C, P+C+W" />
+      <div class="chart-caption"><strong>RMAE by algorithm configuration.</strong> Lower is better. P+C+W achieves the lowest error.</div>
+    </div>
+
+    <div class="result-callout">
+      <strong>Key finding:</strong> visibility reuse (W) is the single most impactful component — removing it from any configuration significantly degrades quality, confirming that unoccluded reservoir reuse introduces substantial systematic bias. The full P+C+W configuration achieves the best image quality. C+W is not far behind. Spatial reuse seems to not help much in a static scene. What screenshots do not show is that it helps finding appropriate lights on the edges of moving objects, where the temporal reuse has no previous   reservoir to feed on.
+    </div>
+
+    <hr class="section-rule" />
+
+    <!-- Technical details -->
+    <div class="section-title">Implementation</div>
+    <p class="body-text">
+      The implementation extends The Reference Path Tracer, a DX12 DXR application, with a full
+      ReSTIR DI pipeline. Key technical aspects:
+    </p>
+    <ul class="feature-list">
+      <li>DirectX 12 + DXR ray tracing pipeline</li>
+      <li>Weighted Reservoir Sampling (WRS)</li>
+      <li>Temporal reservoir reprojection</li>
+      <li>Spatial reservoir reuse</li>
+      <li>Visibility ray pass (unbiased variant)</li>
+      <li>G-buffer</li>
+      <li>HLSL compute &amp; ray generation shaders</li>
+      <li>Tested on Sponza, Bistro and Sun Temple scenes</li>
+    </ul>
+
+  </article>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Repository</div>
+      <div class="sidebar-links">
+        <a class="sidebar-link" href="https://github.com/0GreenClover0/PathtracerRT" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.021C22 6.484 17.522 2 12 2z"/></svg>
+          <span class="sidebar-link-label">PathtracerRT (fork)</span>
+          <span class="sidebar-link-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Thesis Info</div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">Type</span>
+          <span class="info-row-value">Engineering Thesis</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">University</span>
+          <span class="info-row-value">TUL, Łódź</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Year</span>
+          <span class="info-row-value">2024</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Algorithm</span>
+          <span class="info-row-value">ReSTIR DI</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Base project</span>
+          <span class="info-row-value">Reference Path Tracer</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">API</span>
+          <span class="info-row-value">DX12 + DXR</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Tech Stack</div>
+      <div class="tag-cloud">
+        <span class="tag tag-lang">c++</span>
+        <span class="tag tag-api">directx 12</span>
+        <span class="tag tag-api">dxr</span>
+        <span class="tag tag-api">hlsl</span>
+        <span class="tag tag-accent">ReSTIR DI</span>
+        <span class="tag tag-accent">WRS</span>
+        <span class="tag tag-accent">MIS</span>
+        <span class="tag tag-misc">path tracing</span>
+      </div>
+    </div>
+
+  </aside>
+</div>
+
+<footer class="footer">
+  <a href="../index.html">← Back to Portfolio</a>
+  <span class="footer-sep">&middot;</span>
+  <a href="https://github.com/0GreenClover0" target="_blank">github.com/0GreenClover0</a>
+  <span class="footer-sep">&middot;</span>
+  <a href="https://github.com/0GreenClover0/PathtracerRT" target="_blank">PathtracerRT</a>
+  <span class="footer-sep">&middot;</span>
+  <a href="mailto:m.przybylski.inbox@gmail.com">m.przybylski.inbox@gmail.com</a>
+</footer>
+
+</body>
+</html>
