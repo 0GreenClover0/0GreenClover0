@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Docino Mitty — Mikołaj Przybylski</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:        #282828;
+      --bg1:       #3c3836;
+      --bg2:       #504945;
+      --bg3:       #665c54;
+      --bg4:       #7c6f64;
+      --fg:        #ebdbb2;
+      --fg2:       #d5c4a1;
+      --fg3:       #bdae93;
+      --fg4:       #a89984;
+      --red:       #fb4934;
+      --green:     #b8bb26;
+      --yellow:    #fabd2f;
+      --blue:      #83a598;
+      --aqua:      #8ec07c;
+      --orange:    #fe8019;
+      --gray:      #928374;
+      --purple:    #d3869b;
+      --accent:    #b8bb26;
+      --accent-bg: rgba(184,187,38,0.07);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--fg2); font-family: 'Lora', Georgia, serif; font-size: 16px; line-height: 1.75; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Top bar ── */
+    .topbar { border-bottom: 1px solid var(--bg2); padding: 12px 40px; display: flex; align-items: center; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--fg4); background: var(--bg1); }
+    .topbar a { color: var(--fg4); transition: color 0.15s; }
+    .topbar a:hover { color: var(--accent); }
+    .back-link::before { content: '← '; }
+    .topbar-right { display: flex; gap: 20px; }
+    .topbar-right a { display: flex; align-items: center; gap: 6px; }
+    .topbar-right svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* ── Masthead ── */
+    .masthead { border-bottom: 3px double var(--bg3); padding: 0 40px; }
+    .masthead-site { text-align: center; padding: 10px 0 8px; border-bottom: 1px solid var(--bg2); font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg4); }
+    .masthead-site a { transition: color 0.15s; }
+    .masthead-site a:hover { color: var(--accent); }
+
+    /* ── Headline ── */
+    .headline-section { padding: 36px 40px 0; max-width: 1160px; margin: 0 auto; }
+    .headline-kicker { font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
+    .headline-kicker::after { content: ''; flex: 1; height: 1px; background: var(--bg2); }
+    .headline-title { font-family: 'Playfair Display', serif; font-size: clamp(52px, 7vw, 84px); font-weight: 900; color: var(--fg); line-height: 0.95; letter-spacing: 0.01em; margin-bottom: 20px; }
+    .headline-deck { font-family: 'Lora', serif; font-size: 19px; font-style: italic; color: var(--fg3); line-height: 1.65; max-width: 700px; margin-bottom: 24px; border-left: 3px solid var(--accent); padding-left: 20px; }
+
+    /* Award banner */
+    .award-banner { background: var(--bg1); border: 1px solid var(--yellow); border-left: 4px solid var(--yellow); padding: 12px 20px; display: flex; align-items: center; gap: 16px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--fg2); margin-bottom: 20px; }
+    .award-banner .trophy { font-size: 20px; flex-shrink: 0; }
+    .award-banner strong { color: var(--yellow); }
+
+    /* Stats ribbon */
+    .stats-ribbon { display: flex; flex-wrap: wrap; border-top: 1px solid var(--bg2); border-bottom: 1px solid var(--bg2); }
+    .stat-item { padding: 12px 24px 12px 0; margin-right: 24px; border-right: 1px solid var(--bg2); font-family: 'IBM Plex Mono', monospace; }
+    .stat-item:last-child { border-right: none; }
+    .stat-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); display: block; margin-bottom: 2px; }
+    .stat-value { font-size: 14px; color: var(--fg2); }
+
+    /* ── Body layout ── */
+    .body-wrap { max-width: 1160px; margin: 0 auto; padding: 0 40px 80px; display: grid; grid-template-columns: 1fr 280px; gap: 0; align-items: start; }
+    .main-col { border-right: 1px solid var(--bg2); padding-right: 40px; padding-top: 36px; }
+
+    .section-rule { border: none; border-top: 1px solid var(--bg2); margin: 28px 0 22px; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 400; letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg4); margin-bottom: 14px; }
+    .body-text { font-size: 16px; color: var(--fg3); line-height: 1.8; margin-bottom: 14px; }
+    .body-text:last-child { margin-bottom: 0; }
+
+    /* Pull quote */
+    .pull-quote { border-top: 2px solid var(--fg4); border-bottom: 1px solid var(--bg2); padding: 18px 0 14px; margin: 28px 0; }
+    .pull-quote p { font-family: 'Playfair Display', serif; font-size: 20px; font-style: italic; color: var(--fg); line-height: 1.45; }
+
+    /* Feature list */
+    .feature-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; margin-bottom: 14px; }
+    .feature-list li { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--fg3); padding-left: 14px; position: relative; }
+    .feature-list li::before { content: '·'; position: absolute; left: 0; color: var(--orange); }
+
+    /* Screenshot strip */
+    .screenshot-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 12px 6px;
+    }
+    .screenshot-grid a {
+      display: block;
+      overflow: hidden;
+      border: 1px solid var(--bg2);
+      aspect-ratio: 16/9;
+      position: relative;
+      z-index: 0;
+      transform-origin: center center;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .screenshot-grid a:hover {
+      transform: scale(1.10);
+      border-color: var(--accent);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.7), 0 0 0 1px var(--accent);
+      z-index: 10;
+    }
+    .screenshot-grid img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: sepia(0.1) saturate(0.85) brightness(0.85);
+      transition: filter 0.25s, transform 0.25s;
+      display: block;
+    }
+    .screenshot-grid a:hover img { filter: sepia(0) saturate(1) brightness(1); transform: scale(1.04); }
+
+    .screenshot { margin: 24px 0; border: 1px solid var(--bg2); }
+    .screenshot img { width: 100%; display: block; }
+    .screenshot a {
+      display: block;
+      overflow: hidden;
+      border: 1px solid var(--bg2);
+      aspect-ratio: 16/9;
+      position: relative;
+      z-index: 0;
+      transform-origin: center center;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .screenshot a:hover {
+      transform: scale(1.10);
+      border-color: var(--accent);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.7), 0 0 0 1px var(--accent);
+      z-index: 10;
+    }
+
+    /* Contributions box */
+    .contributions-box { background: var(--bg1); border: 1px solid var(--bg2); border-left: 4px solid var(--accent); padding: 22px 26px; margin-top: 12px; }
+    .contributions-box .body-text { color: var(--fg3); }
+    .contrib-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+    .contrib-list li { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--fg3); padding-left: 18px; position: relative; line-height: 1.6; }
+    .contrib-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+
+    /* Credits table */
+    .credits-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 12px; }
+    .credits-table tr { border-bottom: 1px solid var(--bg2); }
+    .credits-table tr:last-child { border-bottom: none; }
+    .credits-table td { padding: 9px 0; vertical-align: top; }
+    .credits-table td:first-child { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--fg); width: 52%; padding-right: 16px; }
+    .credits-table td:last-child { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--fg4); }
+    .credits-table a { color: var(--blue); transition: color 0.15s; }
+    .credits-table a:hover { color: var(--accent); }
+    .credits-table .you { color: var(--accent) !important; }
+
+    /* ── Sidebar ── */
+    .sidebar { padding-left: 32px; padding-top: 36px; }
+    .sidebar-block { border-bottom: 1px solid var(--bg2); padding-bottom: 22px; margin-bottom: 22px; }
+    .sidebar-block:last-child { border-bottom: none; }
+    .sidebar-heading { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gray); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--bg2); }
+    .sidebar-links { display: flex; flex-direction: column; gap: 8px; }
+    .sidebar-link { display: flex; align-items: center; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--fg3); padding: 8px 12px; border: 1px solid var(--bg2); background: var(--bg1); transition: border-color 0.15s, color 0.15s, background 0.15s; }
+    .sidebar-link:hover { border-color: var(--accent); color: var(--accent); background: var(--bg2); }
+    .sidebar-link svg { width: 15px; height: 15px; fill: currentColor; flex-shrink: 0; }
+    .sidebar-link-label { flex: 1; }
+    .sidebar-link-arrow { color: var(--bg3); transition: color 0.15s; }
+    .sidebar-link:hover .sidebar-link-arrow { color: var(--accent); }
+
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 5px; }
+    .tag { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; padding: 2px 8px; border: 1px solid; }
+    .tag-lang   { color: var(--blue);   border-color: var(--blue);   background: rgba(131,165,152,0.08); }
+    .tag-engine { color: var(--aqua);   border-color: var(--aqua);   background: rgba(142,192,124,0.08); }
+    .tag-misc   { color: var(--orange); border-color: var(--orange); background: rgba(254,128,25,0.08); }
+    .tag-accent { color: var(--accent); border-color: var(--accent); background: var(--accent-bg); }
+
+    .award-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+    .award-item:last-child { margin-bottom: 0; }
+    .award-icon { color: var(--yellow); font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .award-text { font-size: 13px; color: var(--fg3); line-height: 1.5; }
+    .award-text strong { color: var(--fg); font-family: 'Playfair Display', serif; font-size: 14px; display: block; }
+
+    .info-rows { display: flex; flex-direction: column; }
+    .info-row { display: flex; justify-content: space-between; align-items: baseline; padding: 7px 0; border-bottom: 1px solid var(--bg2); gap: 12px; }
+    .info-row:last-child { border-bottom: none; }
+    .info-row-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); flex-shrink: 0; }
+    .info-row-value { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--fg3); text-align: right; }
+
+    /* ── Footer ── */
+    .footer { border-top: 3px double var(--bg3); padding: 26px 40px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--gray); letter-spacing: 0.08em; }
+    .footer a { color: var(--fg4); transition: color 0.15s; }
+    .footer a:hover { color: var(--accent); }
+    .footer-sep { margin: 0 12px; color: var(--bg3); }
+
+    @media (max-width: 860px) {
+      .body-wrap { grid-template-columns: 1fr; }
+      .main-col { border-right: none; padding-right: 0; }
+      .sidebar { padding-left: 0; padding-top: 0; border-top: 1px solid var(--bg2); }
+      .headline-section, .body-wrap, .topbar, .masthead, .footer { padding-left: 20px; padding-right: 20px; }
+    }
+    @media (max-width: 560px) {
+      .screenshot-grid { grid-template-columns: 1fr 1fr; }
+      .stats-ribbon { flex-direction: column; }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--bg2); padding: 10px 0; margin-right: 0; }
+      .feature-list { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Top bar ── -->
+<div class="topbar">
+  <a href="../index.html" class="back-link">Portfolio</a>
+  <div class="topbar-right">
+    <a href="https://gm48.net/game-jams/equivalent-exchange/games/docino-mitty" target="_blank">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+      Play on gm48
+    </a>
+  </div>
+</div>
+
+<!-- ── Masthead ── -->
+<header class="masthead">
+  <div class="masthead-site">
+    <a href="../index.html">Mikołaj Przybylski &nbsp;·&nbsp; Portfolio</a>
+  </div>
+</header>
+
+<!-- ── Headline ── -->
+<div class="headline-section">
+  <div class="headline-kicker">Game Jam &nbsp;·&nbsp; gm48 — 48th Edition &nbsp;·&nbsp; GameMaker</div>
+  <h1 class="headline-title">Docino Mitty</h1>
+
+  <div class="award-banner">
+    <span class="trophy">🏆</span>
+    <div><strong>3rd Place</strong> overall out of 112 submitted games — gm48 #48, Theme: Equivalent Exchange</div>
+  </div>
+
+  <p class="headline-deck">
+    A tiny town builder where your city is made of dominos. Think like a trader as much as a planner — chain tiles for exponential combos, then spend them in an equivalent exchange to grow your town ever further.
+  </p>
+
+  <div class="stats-ribbon">
+    <div class="stat-item">
+      <span class="stat-label">Jam</span>
+      <span class="stat-value">gm48 #48</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Theme</span>
+      <span class="stat-value">Equivalent Exchange</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Placing</span>
+      <span class="stat-value">3rd / 112 games</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Team</span>
+      <span class="stat-value">3 people</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Engine</span>
+      <span class="stat-value">GameMaker</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── Body ── -->
+<div class="body-wrap">
+  <article class="main-col">
+
+    <div class="section-title">About</div>
+    <p class="body-text">
+      Docino Mitty is a puzzler built around placing dominoes to form a growing kingdom. Each domino
+      has two tiles, each displaying a value and a terrain type — forest, road, house, lake, and more.
+      Rather than matching values as in traditional dominoes, you match terrain types: adjacent tiles of
+      the same type form connections that compound their scores. Chain the right sequence together and
+      the value multiplies; place carelessly and the whole thing can collapse.
+    </p>
+    <p class="body-text">
+      The trading mechanic adds a second layer: once a run of tiles has accumulated enough value, you
+      can cash it in for a set of cheaper, but greater in numbers, individual tiles — an "equivalent exchange" — then use those
+      to keep building. It's a loop of building, scoring, spending, and expanding that rewards forward
+      planning under tight constraints.
+    </p>
+
+    <div class="pull-quote">
+      <p>"Chain the right tiles together to create exponential combos, then use them in an equivalent exchange — one high value domino for a handful of cheaper ones."</p>
+    </div>
+
+    <div class="section-title">Gameplay</div>
+    <ul class="feature-list">
+      <li>Domino placement on a town grid</li>
+      <li>Terrain-type matching (not value matching)</li>
+      <li>Forest, road, house, lake, and more types</li>
+      <li>Each type has unique combo rules</li>
+      <li>Exponential value chaining</li>
+      <li>Equivalent exchange trading mechanic</li>
+      <li>High score pursuit loop</li>
+    </ul>
+
+    <hr class="section-rule" />
+
+    <div class="section-title">Screenshots</div>
+
+    <div class="screenshot">
+      <a href="./docino-mitty2.png" target="_blank">
+        <img src="./docino-mitty2.png" alt="Docino Mitty in-game scene." />
+      </a>
+    </div>
+
+    <div class="screenshot-grid">
+      <a href="./docino-mitty3.png" target="_blank">
+        <img src="./docino-mitty3.png" alt="Screenshot 2" onerror="this.parentElement.style.background='#3c3836'; this.style.display='none'" />
+      </a>
+      <a href="./docino-mitty4.png" target="_blank">
+        <img src="./docino-mitty4.png" alt="Screenshot 3" onerror="this.parentElement.style.background='#3c3836'; this.style.display='none'" />
+      </a>
+      <a href="./docino-mitty5.png" target="_blank">
+        <img src="./docino-mitty5.png" alt="Screenshot 4" onerror="this.parentElement.style.background='#3c3836'; this.style.display='none'" />
+      </a>
+    </div>
+
+    <hr class="section-rule" />
+
+    <div class="section-title">My Contributions</div>
+    <div class="contributions-box">
+      <p class="body-text">One of three team members. Mainly programming and some design / statistics tweaks.</p>
+      <ul class="contrib-list">
+        <li>Implemented the inventory / hand mechanic.</li>
+        <li>Worked on the trader and the equivalent exchange trading loop.</li>
+        <li>Helped implement the domino placement, and combo value calculation systems.</li>
+        <li>Came up with the idea to add birds to the game. They are pretty sweet.</li>
+      </ul>
+    </div>
+
+    <hr class="section-rule" />
+
+    <div class="section-title">Credits</div>
+    <table class="credits-table">
+      <tr>
+        <td><a class="you" href="https://www.linkedin.com/in/miko%C5%82aj-przybylski-5b8865206/" target="_blank">Mikołaj Przybylski</a></td>
+        <td>Programming</td>
+      </tr>
+      <tr>
+        <td><a href="https://github.com/MiloszKawczynski" target="_blank">Miłosz Kawczyński</a></td>
+        <td>Design &amp; Programming</td>
+      </tr>
+      <tr>
+        <td>Weronika Lilia Sztobryn</td>
+        <td>2D Art</td>
+      </tr>
+    </table>
+
+  </article>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Play</div>
+      <div class="sidebar-links">
+        <a class="sidebar-link" href="https://gm48.net/game-jams/equivalent-exchange/games/docino-mitty" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+          <span class="sidebar-link-label">Play on gm48</span>
+          <span class="sidebar-link-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Awards</div>
+      <div class="award-item">
+        <span class="award-icon">🏆</span>
+        <div class="award-text">
+          <strong>3rd Place Overall</strong>
+          gm48 #48 — Equivalent Exchange<br/>112 games submitted
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Jam Info</div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">Genre</span>
+          <span class="info-row-value">Puzzle / Strategy</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Duration</span>
+          <span class="info-row-value">48 hours</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Team</span>
+          <span class="info-row-value">3 people</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Input</span>
+          <span class="info-row-value">Keyboard + Mouse</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Jam</span>
+          <span class="info-row-value">gm48 #48</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Theme</span>
+          <span class="info-row-value">Equivalent Exchange</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Entries</span>
+          <span class="info-row-value">112 games</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">Tech</div>
+      <div class="tag-cloud">
+        <span class="tag tag-engine">gamemaker</span>
+        <span class="tag tag-lang">gml</span>
+        <span class="tag tag-accent">domino mechanics</span>
+        <span class="tag tag-misc">puzzle</span>
+        <span class="tag tag-misc">city builder</span>
+      </div>
+    </div>
+
+  </aside>
+</div>
+
+<footer class="footer">
+  <a href="../index.html">← Back to Portfolio</a>
+  <span class="footer-sep">&middot;</span>
+  <a href="https://github.com/0GreenClover0" target="_blank">github.com/0GreenClover0</a>
+  <span class="footer-sep">&middot;</span>
+  <a href="https://gm48.net/game-jams/equivalent-exchange/games/docino-mitty" target="_blank">gm48 page</a>
+</footer>
+
+</body>
+</html>
