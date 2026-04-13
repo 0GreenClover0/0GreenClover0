@@ -390,6 +390,24 @@
     }
     .contrib-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
 
+    .contrib-jump {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--accent);
+      padding: 8px 16px;
+      margin-bottom: 32px;
+      border: 1px solid var(--accent);
+      transition: opacity 0.15s, gap 0.2s;
+    }
+    .contrib-jump:hover { opacity: 0.85; gap: 12px; }
+
     /* ── Sidebar ──────────────────────────────────────── */
     .sidebar {
       padding-left: 32px;
@@ -608,6 +626,11 @@
   <!-- Main column -->
   <article class="main-col">
 
+    <a class="contrib-jump" href="#contributions">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 4a1 1 0 0 1 1 1v11.586l3.293-3.293a1 1 0 0 1 1.414 1.414l-5 5a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 1.414-1.414L11 16.586V5a1 1 0 0 1 1-1z"/></svg>
+      Jump to My Contributions
+    </a>
+
     <!-- Overview -->
     <div class="section-title">About the Game</div>
     <p class="body-text">
@@ -697,7 +720,7 @@
     <hr class="section-rule" />
 
     <!-- My Contributions -->
-    <div class="section-title">My Contributions</div>
+    <div id="contributions" class="section-title">My Contributions</div>
     <div class="contributions-box">
       <p class="body-text">
         I was the Programming Lead of the project, laying down the foundations for most of the engine's

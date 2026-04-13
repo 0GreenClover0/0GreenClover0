@@ -123,6 +123,24 @@
     .contrib-list li { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--fg3); padding-left: 18px; position: relative; line-height: 1.6; }
     .contrib-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
 
+    .contrib-jump {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--accent);
+      padding: 8px 16px;
+      margin-bottom: 32px;
+      border: 1px solid var(--accent);
+      transition: opacity 0.15s, gap 0.2s;
+    }
+    .contrib-jump:hover { opacity: 0.85; gap: 12px; }
+
     /* ── Sidebar ── */
     .sidebar { padding-left: 32px; padding-top: 36px; }
     .sidebar-block { border-bottom: 1px solid var(--bg2); padding-bottom: 22px; margin-bottom: 22px; }
@@ -259,6 +277,11 @@
 <div class="body-wrap">
   <article class="main-col">
 
+    <a class="contrib-jump" href="#contributions">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 4a1 1 0 0 1 1 1v11.586l3.293-3.293a1 1 0 0 1 1.414 1.414l-5 5a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 1.414-1.414L11 16.586V5a1 1 0 0 1 1-1z"/></svg>
+      Jump to My Contributions
+    </a>
+
     <div class="section-title">About</div>
     <p class="body-text">
       BraceUp VR is a commercial VR game released on Steam and the Meta Store, developed at Virtual
@@ -341,7 +364,7 @@
     <hr class="section-rule" />
 
     <!-- Contributions -->
-    <div class="section-title">My Contributions</div>
+    <div id="contributions" class="section-title">My Contributions</div>
     <div class="contributions-box">
       <p class="body-text">I worked on BraceUp VR as a commercial developer at Virtual Software House.</p>
       <ul class="contrib-list">
