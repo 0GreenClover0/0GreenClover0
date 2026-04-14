@@ -285,6 +285,25 @@
 
     <hr class="section-rule" />
 
+    <!-- Technical details -->
+    <div class="section-title">Implementation</div>
+    <p class="body-text">
+      The implementation extends The Reference Path Tracer, a DX12 DXR application, with a ReSTIR DI pipeline. Key technical aspects:
+    </p>
+    <ul class="feature-list">
+      <li>DirectX 12 + DXR ray tracing pipeline</li>
+      <li>G-buffer</li>
+      <li>Weighted Reservoir Sampling (WRS)</li>
+      <li>Resampled Importance Sampling (RIS)</li>
+      <li>Temporal reservoir reuse</li>
+      <li>Spatial reservoir reuse</li>
+      <li>Visibility ray pass</li>
+      <li>HLSL compute &amp; ray generation shaders</li>
+      <li>Tested on Sponza, Bistro and Sun Temple scenes</li>
+    </ul>
+
+    <hr class="section-rule" />
+
     <!-- Background -->
     <div class="section-title">Background &amp; Motivation</div>
     <p class="body-text">
@@ -380,25 +399,6 @@
     <div class="result-callout">
       <strong>Key finding:</strong> visibility reuse (W) is the single most impactful component — removing it from any configuration significantly degrades quality, confirming that unoccluded reservoir reuse introduces substantial systematic bias. The full P+C+W configuration achieves the best image quality. C+W is not far behind. Spatial reuse seems to not help much in a static scene. What screenshots do not show is that it helps finding appropriate lights on the edges of moving objects, where the temporal reuse has no previous   reservoir to feed on.
     </div>
-
-    <hr class="section-rule" />
-
-    <!-- Technical details -->
-    <div class="section-title">Implementation</div>
-    <p class="body-text">
-      The implementation extends The Reference Path Tracer, a DX12 DXR application, with a full
-      ReSTIR DI pipeline. Key technical aspects:
-    </p>
-    <ul class="feature-list">
-      <li>DirectX 12 + DXR ray tracing pipeline</li>
-      <li>Weighted Reservoir Sampling (WRS)</li>
-      <li>Temporal reservoir reprojection</li>
-      <li>Spatial reservoir reuse</li>
-      <li>Visibility ray pass (unbiased variant)</li>
-      <li>G-buffer</li>
-      <li>HLSL compute &amp; ray generation shaders</li>
-      <li>Tested on Sponza, Bistro and Sun Temple scenes</li>
-    </ul>
 
   </article>
 
